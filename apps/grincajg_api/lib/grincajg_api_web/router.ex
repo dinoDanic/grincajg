@@ -7,5 +7,6 @@ defmodule GrincajgApiWeb.Router do
 
   scope "/api", GrincajgApiWeb do
     pipe_through :api
+    get "/", DefaultController, :index
   end
 end

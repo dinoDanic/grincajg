@@ -27,6 +27,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Guardian
+config :grincajg_api, GrincajgApiWeb.Auth.Guardian,
+  issuer: "grincajg_api",
+  secret_key: "tCWqH9kRzzilziqeszd21uxy9mwoQYzzYneEr0k0JkqYXrj6mH1kwPca+xdvOqSW"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
