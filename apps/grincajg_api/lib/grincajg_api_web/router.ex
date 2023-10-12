@@ -12,10 +12,12 @@ defmodule GrincajgApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug GrincajgApiWeb.Auth.Pipeline
+    plug GrincajgApiWeb.Auth.SetAccount
   end
 
   scope "/api", GrincajgApiWeb do
