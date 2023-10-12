@@ -15,6 +15,14 @@ defmodule GrincajgApiWeb.AccountJSON do
     %{data: data(account)}
   end
 
+  def render("account_token.json", %{account: account, token: token}) do
+    %{
+      id: account.id,
+      email: account.email,
+      token: token
+    }
+  end
+
   defp data(%Account{} = account) do
     %{
       id: account.id,
