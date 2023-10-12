@@ -1,6 +1,7 @@
 defmodule GrincajgApiWeb.AccountController do
   use GrincajgApiWeb, :controller
 
+  alias GrincajgApiWeb.Auth.ErrorResponse
   alias GrincajgApiWeb.Auth.Guardian
   alias GrincajgApi.{Accounts, Accounts.Account, Users, Users.User}
 
@@ -18,6 +19,18 @@ defmodule GrincajgApiWeb.AccountController do
       conn
       |> put_status(:created)
       |> render("account_token.json", %{account: account, token: token})
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
+    case Guardian.authenticate(email, hash_password) do
+      {:ok, account, token} ->
+        conn
+        |> put_status(:ok)
+        |> render("account_token.json", %{account: account, token: token})
+
+      {:error, :unauthorized} ->
+        raise ErrorResponse.Unauthorized, message: "Email or Password incorrect."
     end
   end
 
