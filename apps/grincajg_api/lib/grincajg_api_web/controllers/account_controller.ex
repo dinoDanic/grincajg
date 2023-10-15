@@ -5,7 +5,21 @@ defmodule GrincajgApiWeb.AccountController do
   alias GrincajgApiWeb.Auth.Guardian
   alias GrincajgApi.{Accounts, Accounts.Account, Users, Users.User}
 
+  # WE DO THIS PLUG WHEN UPDATE OR DELETE FN ARE CALLED
+  plug :is_authorized_account when action in [:update, :delete]
+
   action_fallback GrincajgApiWeb.FallbackController
+
+  defp is_authorized_account(conn, _opts) do
+    %{params: %{"account" => params}} = conn
+    account = Accounts.get_account!(params["id"])
+
+    if conn.assigns.account.id == account.id do
+      conn
+    else
+      raise ErrorResponse.Forbidden
+    end
+  end
 
   def index(conn, _params) do
     accounts = Accounts.list_accounts()
@@ -35,14 +49,13 @@ defmodule GrincajgApiWeb.AccountController do
     end
   end
 
-  def show(conn, %{"id" => _id}) do
-    # account = Accounts.get_account!(id)
-    # we can get account from conn.assigns.account (session)
-    render(conn, :show, account: conn.assigns.account)
+  def show(conn, %{"id" => id}) do
+    account = Accounts.get_account!(id)
+    render(conn, :show, account: account)
   end
 
-  def update(conn, %{"id" => id, "account" => account_params}) do
-    account = Accounts.get_account!(id)
+  def update(conn, %{"account" => account_params}) do
+    account = Accounts.get_account!(account_params["id"])
 
     with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
       render(conn, :show, account: account)

@@ -20,6 +20,7 @@ defmodule GrincajgApiWeb.Router do
     plug GrincajgApiWeb.Auth.SetAccount
   end
 
+  # PUBLIC ROUTE
   scope "/api", GrincajgApiWeb do
     pipe_through :api
     get "/", DefaultController, :index
@@ -27,8 +28,10 @@ defmodule GrincajgApiWeb.Router do
     post "/accounts/sign_in", AccountController, :sign_in
   end
 
+  # PROTECTED ROUTE
   scope "/api", GrincajgApiWeb do
     pipe_through [:api, :auth]
     get "/accounts/by_id/:id", AccountController, :show
+    post "/accounts/update", AccountController, :update
   end
 end
