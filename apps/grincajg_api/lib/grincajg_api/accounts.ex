@@ -98,6 +98,10 @@ defmodule GrincajgApi.Accounts do
     |> Repo.update()
   end
 
+  def update_password() do
+    IO.puts("unutra sam")
+  end
+
   @doc """
   Deletes a account.
 

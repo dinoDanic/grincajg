@@ -67,11 +67,24 @@ defmodule GrincajgApiWeb.AccountController do
     render(conn, :full_account, account: account)
   end
 
-  def update(conn, %{"account" => account_params}) do
-    account = Accounts.get_account!(account_params["id"])
+  def current_account(conn, %{}) do
+    account = conn.assigns.account
+    conn
+    |> put_status(:ok)
 
-    with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
-      render(conn, :show, account: account)
+    render(conn, :full_account, account: account)
+  end
+
+  def update(conn, %{"current_hash" => current_hash, "account" => account_params}) do
+    account = conn.assigns.account
+
+    case Guardian.validate_password(current_hash, account.hash_password) do
+      true ->
+        {:ok, account} = Accounts.update_account(account, account_params)
+        render(conn, :show, account: account)
+
+      false ->
+        raise ErrorResponse.Unauthorized, message: "Passwod incorect"
     end
   end
 

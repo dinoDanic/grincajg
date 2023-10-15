@@ -44,7 +44,7 @@ defmodule GrincajgApiWeb.Auth.Guardian do
     end
   end
 
-  defp validate_password(password, hash_password) do
+  def validate_password(password, hash_password) do
     Bcrypt.verify_pass(password, hash_password)
   end
 
