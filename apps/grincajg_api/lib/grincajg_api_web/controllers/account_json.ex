@@ -1,4 +1,5 @@
 defmodule GrincajgApiWeb.AccountJSON do
+  alias GrincajgApiWeb.UserJSON
   alias GrincajgApi.Accounts.Account
 
   @doc """
@@ -20,6 +21,14 @@ defmodule GrincajgApiWeb.AccountJSON do
       id: account.id,
       email: account.email,
       token: token
+    }
+  end
+
+  def full_account(%{account: account}) do
+    %{
+      id: account.id,
+      email: account.email,
+      user: UserJSON.user(%{user: account.user})
     }
   end
 

@@ -15,6 +15,10 @@ defmodule GrincajgApiWeb.UserJSON do
     %{data: data(user)}
   end
 
+  def user(%{user: user}) do
+    data(user)
+  end
+
   defp data(%User{} = user) do
     %{
       id: user.id,
