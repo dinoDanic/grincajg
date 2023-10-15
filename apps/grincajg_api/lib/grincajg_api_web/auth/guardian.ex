@@ -37,7 +37,11 @@ defmodule GrincajgApiWeb.Auth.Guardian do
   end
 
   def authenticate(token) do
-    #
+    with {:ok, claims} <- decode_and_verify(token),
+         {:ok, account} <- resource_from_claims(claims),
+         {:ok, _old, {new_token, _claims}} <- refresh(token) do
+      {:ok, account, new_token}
+    end
   end
 
   defp validate_password(password, hash_password) do
