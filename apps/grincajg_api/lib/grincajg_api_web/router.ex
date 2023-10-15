@@ -32,6 +32,7 @@ defmodule GrincajgApiWeb.Router do
   scope "/api", GrincajgApiWeb do
     pipe_through [:api, :auth]
     get "/accounts/by_id/:id", AccountController, :show
+    get "/accounts/sign_out", AccountController, :sign_out
     post "/accounts/update", AccountController, :update
   end
 end
