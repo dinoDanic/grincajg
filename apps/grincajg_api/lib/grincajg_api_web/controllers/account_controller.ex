@@ -5,21 +5,12 @@ defmodule GrincajgApiWeb.AccountController do
   alias GrincajgApiWeb.Auth.Guardian
   alias GrincajgApi.{Accounts, Accounts.Account, Users, Users.User}
 
+  import GrincajgApiWeb.Auth.AuthorizedPlug
+
   # WE DO THIS PLUG WHEN UPDATE OR DELETE FN ARE CALLED
-  plug :is_authorized_account when action in [:update, :delete]
+  plug :is_authorized when action in [:update, :delete]
 
   action_fallback GrincajgApiWeb.FallbackController
-
-  defp is_authorized_account(conn, _opts) do
-    %{params: %{"account" => params}} = conn
-    account = Accounts.get_account!(params["id"])
-
-    if conn.assigns.account.id == account.id do
-      conn
-    else
-      raise ErrorResponse.Forbidden
-    end
-  end
 
   def index(conn, _params) do
     accounts = Accounts.list_accounts()
