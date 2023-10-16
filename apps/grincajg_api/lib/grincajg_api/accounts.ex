@@ -38,10 +38,16 @@ defmodule GrincajgApi.Accounts do
   """
   def get_account!(id), do: Repo.get!(Account, id)
 
-  def get_full_account(id) do
+  def get_me_account(id) do
     Account
     |> where(id: ^id)
     |> preload([:user])
+    |> Repo.one()
+  end
+
+  def get_me_organization(id) do
+    Account
+    |> where(id: ^id)
     |> preload([:organization])
     |> Repo.one()
   end
