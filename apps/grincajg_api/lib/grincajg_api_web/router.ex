@@ -31,7 +31,8 @@ defmodule GrincajgApiWeb.Router do
   # PROTECTED ROUTE
   scope "/api", GrincajgApiWeb do
     pipe_through [:api, :auth]
-    get "/accounts/current", AccountController, :current_account
+    get "/accounts/me", AccountController, :me_account
+    get "/accounts/me_organization", AccountController, :me_organization
     get "/accounts/sign_out", AccountController, :sign_out
     get "/accounts/refresh_session", AccountController, :refresh_session
     post "/accounts/update", AccountController, :update

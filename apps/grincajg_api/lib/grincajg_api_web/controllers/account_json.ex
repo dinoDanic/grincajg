@@ -26,12 +26,17 @@ defmodule GrincajgApiWeb.AccountJSON do
     }
   end
 
-  def full_account(%{account: account}) do
+  def render_me_account(%{account: account}) do
     %{
       id: account.id,
       email: account.email,
-      user: UserJSON.user(%{user: account.user}),
-      organization: OrganizationJSON.organization(%{organization: account.organization}) 
+      user: UserJSON.user(%{user: account.user})
+    }
+  end
+
+  def render_me_organization(%{account: account}) do
+    %{
+      organization: OrganizationJSON.organization(%{organization: account.organization})
     }
   end
 
