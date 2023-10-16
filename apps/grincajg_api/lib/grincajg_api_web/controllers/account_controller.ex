@@ -78,12 +78,11 @@ defmodule GrincajgApiWeb.AccountController do
 
   def me_organization(conn, %{}) do
     current_account = conn.assigns.account
-    account_organization = Accounts.get_me_organization(current_account.id)
+    account_organization = Accounts.preload_organization(current_account)
 
     conn
     |> put_status(:ok)
-
-    render(conn, :render_me_organization, account: account_organization)
+    |> render(:render_me_organization, account: account_organization)
   end
 
   def update(conn, %{"current_hash" => current_hash, "account" => account_params}) do

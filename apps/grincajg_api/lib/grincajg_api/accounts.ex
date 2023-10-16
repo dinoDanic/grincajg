@@ -45,11 +45,8 @@ defmodule GrincajgApi.Accounts do
     |> Repo.one()
   end
 
-  def get_me_organization(id) do
-    Account
-    |> where(id: ^id)
-    |> preload([:organization])
-    |> Repo.one()
+  def preload_organization(%Account{} = account) do
+    Repo.preload(account, :organization)
   end
 
   @doc """
