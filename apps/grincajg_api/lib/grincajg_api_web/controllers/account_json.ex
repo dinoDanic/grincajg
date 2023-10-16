@@ -1,4 +1,6 @@
 defmodule GrincajgApiWeb.AccountJSON do
+  alias GrincajgApiWeb.OrganizationJSON
+  alias Hex.API.Key.Organization
   alias GrincajgApiWeb.UserJSON
   alias GrincajgApi.Accounts.Account
 
@@ -28,7 +30,8 @@ defmodule GrincajgApiWeb.AccountJSON do
     %{
       id: account.id,
       email: account.email,
-      user: UserJSON.user(%{user: account.user})
+      user: UserJSON.user(%{user: account.user}),
+      organization: OrganizationJSON.organization(%{organization: account.organization}) 
     }
   end
 

@@ -9,3 +9,17 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+GrincajgApi.Repo.insert!(%GrincajgApi.Accounts.Account{
+  email: "vazin@gmail.com",
+  hash_password: "1",
+  user: %GrincajgApi.Users.User{
+    first_name: "kita",
+    last_name: "me"
+  }
+})
+
+GrincajgApi.Repo.insert!(%GrincajgApi.Organizations.Organization{
+  name: "Org 1",
+  account_id: 1
+})

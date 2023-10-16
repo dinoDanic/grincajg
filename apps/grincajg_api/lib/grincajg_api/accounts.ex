@@ -42,6 +42,7 @@ defmodule GrincajgApi.Accounts do
     Account
     |> where(id: ^id)
     |> preload([:user])
+    |> preload([:organization])
     |> Repo.one()
   end
 

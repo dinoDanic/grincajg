@@ -3,9 +3,9 @@ defmodule GrincajgApi.Users.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :full_name, :string
+    field :first_name, :string
+    field :last_name, :string
     field :gender, :string
-    field :biography, :string
 
     belongs_to :account, GrincajgApi.Accounts.Account
 
@@ -15,7 +15,7 @@ defmodule GrincajgApi.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:account_id, :full_name, :gender, :biography])
+    |> cast(attrs, [:account_id, :first_name, :last_name, :gender])
     |> validate_required([:account_id])
   end
 end

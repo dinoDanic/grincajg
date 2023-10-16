@@ -6,6 +6,7 @@ defmodule GrincajgApi.Accounts.Account do
     field :email, :string
     field :hash_password, :string
     has_one :user, GrincajgApi.Users.User
+    has_one :organization, GrincajgApi.Organizations.Organization
 
     timestamps(type: :utc_datetime)
   end

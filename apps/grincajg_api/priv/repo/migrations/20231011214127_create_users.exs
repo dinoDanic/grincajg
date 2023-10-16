@@ -3,9 +3,9 @@ defmodule GrincajgApi.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :full_name, :string
+      add :first_name, :string
+      add :last_name, :string
       add :gender, :string
-      add :biography, :text
       add :account_id, references(:accounts, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)
