@@ -63,11 +63,6 @@ defmodule GrincajgApiWeb.AccountController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    account = Accounts.get_me_account(id)
-    render(conn, :full_account, account: account)
-  end
-
   def me_account(conn, %{}) do
     account = conn.assigns.account
     render(conn, :render_me_account, account: account)

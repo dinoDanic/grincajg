@@ -10,6 +10,6 @@ defmodule GrincajgApi.Repo.Migrations.CreateOrganizations do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:organizations, [:account_id])
+    create unique_index(:organizations, [:account_id])
   end
 end

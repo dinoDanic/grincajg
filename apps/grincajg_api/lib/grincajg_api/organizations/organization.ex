@@ -16,5 +16,6 @@ defmodule GrincajgApi.Organizations.Organization do
     organization
     |> cast(attrs, [:name, :address, :account_id])
     |> validate_required([])
+    |> unique_constraint(:account_id)
   end
 end
