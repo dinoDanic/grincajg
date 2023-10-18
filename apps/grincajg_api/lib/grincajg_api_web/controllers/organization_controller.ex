@@ -4,7 +4,6 @@ defmodule GrincajgApiWeb.OrganizationController do
 
   alias GrincajgApi.Organizations
   alias GrincajgApi.Organizations.Organization
-  import GrincajgApiWeb.Auth.AuthorizedPlug
 
   action_fallback GrincajgApiWeb.FallbackController
 
@@ -54,37 +53,59 @@ defmodule GrincajgApiWeb.OrganizationController do
 
   # SWAGER
 
-  # def swagger_definitions do
-  #   %{
-  #     Organization:
-  #       swagger_schema do
-  #         title("Organization")
-  #         description("Organization")
-  #
-  #         properties do
-  #           id(:string, "id")
-  #           email(:string, "email")
-  #         end
-  #
-  #         example(%{
-  #           id: 1,
-  #           token:
-  #             "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJncmluY2FqZ19hcGkiLCJleHAiOjE2OTc2NDQ2MDEsImlhdCI6MTY5NzYzNzQwMSwiaXNzIjoiZ3JpbmNhamdfYXBpIiwianRpIjoiODAyOTFiNjItNTUwYi00ZTEyLTgwZmQtMjg3Y2MxOGZmNGI2IiwibmJmIjoxNjk3NjM3NDAwLCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.XjLNL_ToTqxbsZAd6lJ7GPWSsL_KIUuDSOSBkQf83yzq7IqreaISrfE-_SIBdGc-q6SOLbIA366gU4lOD1hzaA",
-  #           email: "email@email.com"
-  #         })
-  #       end
-  #   }
-  # end
-  #
-  # swagger_path :create do
-  #   post("/accounts/sign_in")
-  #   summary("List all recorded activities")
-  #   description("List all recorded activities")
-  #
-  #   parameter(:email, :query, :string, "email", required: true, default: "vazin@kita.com")
-  #   parameter(:hash_password, :query, :string, "passwordk", required: true, default: "1")
-  #
-  #   response(200, "Ok", Schema.ref(:Account))
-  #   response(401, "Wrong credentials")
-  # end
+  def swagger_definitions do
+    %{
+      Organization:
+        swagger_schema do
+          title("organization")
+          description("organization")
+
+          properties do
+            id(:string)
+            name(:string)
+            address(:string)
+          end
+
+          example(%{
+            id: 1,
+            name: "organization example",
+            address: "franc 1, 100 000 zamra"
+          })
+        end,
+      OrganizationInput:
+        swagger_schema do
+          title("organization input")
+          description("arguments for creating a organization, a user can have only one organization")
+
+          properties do
+            name(:string)
+            address(:string)
+          end
+
+          example(%{
+            organization: %{
+              name: "organization example",
+              address: "franc 1, 100 000 zamra"
+            }
+          })
+        end
+    }
+  end
+
+  swagger_path :create do
+    post("/organization/create")
+    summary("create a organization")
+    description("")
+
+    parameters do
+      organization(:body, Schema.ref(:OrganizationInput), "Organization attributes",
+        required: true
+      )
+    end
+
+    security([%{Bearer: []}])
+
+    response(200, "ok", Schema.ref(:Organization))
+    response(401, "wrong credentials")
+  end
 end

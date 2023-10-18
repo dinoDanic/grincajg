@@ -53,6 +53,13 @@ defmodule GrincajgApiWeb.Router do
       info: %{
         version: "1.0",
         title: "Grincajg"
+      },
+      securityDefinitions: %{
+        Bearer: %{
+          type: "apiKey",
+          name: "Authorization",
+          in: "header"
+        }
       }
     }
   end

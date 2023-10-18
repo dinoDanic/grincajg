@@ -10,30 +10,68 @@
       "example": {
         "email": "email@email.com",
         "id": 1,
-        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJncmluY2FqZ19hcGkiLCJleHAiOjE2OTc2NDQ2MDEsImlhdCI6MTY5NzYzNzQwMSwiaXNzIjoiZ3JpbmNhamdfYXBpIiwianRpIjoiODAyOTFiNjItNTUwYi00ZTEyLTgwZmQtMjg3Y2MxOGZmNGI2IiwibmJmIjoxNjk3NjM3NDAwLCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.XjLNL_ToTqxbsZAd6lJ7GPWSsL_KIUuDSOSBkQf83yzq7IqreaISrfE-_SIBdGc-q6SOLbIA366gU4lOD1hzaA"
+        "token": "Bearer token"
       },
       "properties": {
         "email": {
-          "description": "email",
           "type": "string"
         },
         "id": {
-          "description": "id",
           "type": "string"
         }
       },
       "title": "Account",
+      "type": "object"
+    },
+    "Organization": {
+      "description": "organization",
+      "example": {
+        "address": "franc 1, 100 000 zamra",
+        "id": 1,
+        "name": "organization example"
+      },
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "organization",
+      "type": "object"
+    },
+    "OrganizationInput": {
+      "description": "arguments for creating a organization, a user can have only one organization",
+      "example": {
+        "organization": {
+          "address": "franc 1, 100 000 zamra",
+          "name": "organization example"
+        }
+      },
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "organization input",
       "type": "object"
     }
   },
   "paths": {
     "/accounts/sign_in": {
       "post": {
-        "description": "List all recorded activities",
+        "description": "",
         "operationId": "GrincajgApiWeb.AccountController.create",
         "parameters": [
           {
-            "default": "vazin@kita.com",
+            "default": "vazin@gmail.com",
             "description": "email",
             "in": "query",
             "name": "email",
@@ -60,13 +98,57 @@
             "description": "Wrong credentials"
           }
         },
-        "summary": "List all recorded activities",
+        "summary": "Sign into account",
         "tags": [
           "Account"
+        ]
+      }
+    },
+    "/organization/create": {
+      "post": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.OrganizationController.create",
+        "parameters": [
+          {
+            "description": "Organization attributes",
+            "in": "body",
+            "name": "organization",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrganizationInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Organization"
+            }
+          },
+          "401": {
+            "description": "wrong credentials"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "create a organization",
+        "tags": [
+          "Organization"
         ]
       }
     }
   },
   "swagger": "2.0",
-  "basePath": "/api"
+  "basePath": "/api",
+  "securityDefinitions": {
+    "Bearer": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  }
 }

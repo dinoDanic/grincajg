@@ -108,14 +108,13 @@ defmodule GrincajgApiWeb.AccountController do
           description("Account")
 
           properties do
-            id(:string, "id")
-            email(:string, "email")
+            id(:string)
+            email(:string)
           end
 
           example(%{
             id: 1,
-            token:
-              "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJncmluY2FqZ19hcGkiLCJleHAiOjE2OTc2NDQ2MDEsImlhdCI6MTY5NzYzNzQwMSwiaXNzIjoiZ3JpbmNhamdfYXBpIiwianRpIjoiODAyOTFiNjItNTUwYi00ZTEyLTgwZmQtMjg3Y2MxOGZmNGI2IiwibmJmIjoxNjk3NjM3NDAwLCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.XjLNL_ToTqxbsZAd6lJ7GPWSsL_KIUuDSOSBkQf83yzq7IqreaISrfE-_SIBdGc-q6SOLbIA366gU4lOD1hzaA",
+            token: "Bearer token",
             email: "email@email.com"
           })
         end
@@ -124,10 +123,10 @@ defmodule GrincajgApiWeb.AccountController do
 
   swagger_path :create do
     post("/accounts/sign_in")
-    summary("List all recorded activities")
-    description("List all recorded activities")
+    summary("Sign into account")
+    # description("List all recorded activities")
 
-    parameter(:email, :query, :string, "email", required: true, default: "vazin@kita.com")
+    parameter(:email, :query, :string, "email", required: true, default: "vazin@gmail.com")
     parameter(:hash_password, :query, :string, "passwordk", required: true, default: "1")
 
     response(200, "Ok", Schema.ref(:Account))
