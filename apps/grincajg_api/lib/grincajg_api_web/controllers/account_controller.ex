@@ -21,7 +21,7 @@ defmodule GrincajgApiWeb.AccountController do
   def create(conn, %{"account" => account_params}) do
     with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
          {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
-      authorize_account(conn, account.email, account_params[~c"hash_password"])
+      authorize_account(conn, account.email, account_params["hash_password"])
     end
   end
 
@@ -63,18 +63,18 @@ defmodule GrincajgApiWeb.AccountController do
     end
   end
 
-  def me_account(conn, %{}) do
+  def account_user(conn, %{}) do
     account = conn.assigns.account
-    render(conn, :render_me_account, account: account)
+    render(conn, :render_account_user, account: account)
   end
 
-  def me_organization(conn, %{}) do
+  def account_user_with_organization(conn, %{}) do
     current_account = conn.assigns.account
     account_organization = Accounts.preload_organization(current_account)
 
     conn
     |> put_status(:ok)
-    |> render(:render_me_organization, account: account_organization)
+    |> render(:render_account_user_organization, account: account_organization)
   end
 
   def update(conn, %{"current_hash" => current_hash, "account" => account_params}) do
@@ -115,21 +115,87 @@ defmodule GrincajgApiWeb.AccountController do
           example(%{
             id: 1,
             token: "Bearer token",
-            email: "email@email.com"
+            email: "example@email.com"
           })
+        end,
+      AccountInput:
+        swagger_schema do
+          title("AccountInput")
+          description("Arguments for creating account")
+
+          properties do
+            id(:string)
+            email(:string)
+          end
+
+          example(%{account: %{email: "vazin@gmail.com", hash_password: "1"}})
         end
     }
   end
 
   swagger_path :create do
+    post("/accounts/create")
+    summary("create a account")
+    # description("List all recorded activities")
+
+    parameters do
+      account(:body, Schema.ref(:AccountInput), "Account attributes", required: true)
+    end
+
+    response(200, "Ok", Schema.ref(:Account))
+  end
+
+  swagger_path :sign_in do
     post("/accounts/sign_in")
-    summary("Sign into account")
+    summary("sign into account")
     # description("List all recorded activities")
 
     parameter(:email, :query, :string, "email", required: true, default: "vazin@gmail.com")
-    parameter(:hash_password, :query, :string, "passwordk", required: true, default: "1")
+    parameter(:hash_password, :query, :string, "password", required: true, default: "1")
 
     response(200, "Ok", Schema.ref(:Account))
     response(401, "Wrong credentials")
+  end
+
+  swagger_path :sign_out do
+    get("/accounts/sign_out")
+    summary("sing out from account")
+
+    security([%{Bearer: []}])
+
+    response(200, "Ok", Schema.ref(:Account))
+    response(401, "aunthenticated")
+    response(402, "invalid_token")
+  end
+
+  swagger_path :refresh_session do
+    get("/accounts/refresh_session")
+    summary("refresh account session")
+
+    security([%{Bearer: []}])
+
+    parameters do
+      account(:body, Schema.ref(:AccountInput), "Account attributes", required: true)
+    end
+
+    response(200, "Ok", Schema.ref(:Account))
+  end
+
+  swagger_path :account_user do
+    get("/accounts/account_user")
+    summary("get account info")
+
+    security([%{Bearer: []}])
+
+    response(200, "Ok", Schema.ref(:Account))
+  end
+
+  swagger_path :account_user_with_organization do
+    get("/accounts/account_user_with_organization")
+    summary("get organization from user")
+
+    security([%{Bearer: []}])
+
+    response(200, "Ok", Schema.ref(:Organization))
   end
 end

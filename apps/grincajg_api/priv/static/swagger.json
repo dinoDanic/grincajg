@@ -8,7 +8,7 @@
     "Account": {
       "description": "Account",
       "example": {
-        "email": "email@email.com",
+        "email": "example@email.com",
         "id": 1,
         "token": "Bearer token"
       },
@@ -62,13 +62,143 @@
       },
       "title": "organization input",
       "type": "object"
+    },
+    "AccountInput": {
+      "description": "Arguments for creating account",
+      "example": {
+        "account": {
+          "email": "vazin@gmail.com",
+          "hash_password": "1"
+        }
+      },
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "AccountInput",
+      "type": "object"
     }
   },
   "paths": {
-    "/accounts/sign_in": {
+    "/accounts/account_user": {
+      "get": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.AccountController.account_user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "get account info",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/accounts/account_user_with_organization": {
+      "get": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.AccountController.account_user_with_organization",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Organization"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "get organization from user",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/accounts/create": {
       "post": {
         "description": "",
         "operationId": "GrincajgApiWeb.AccountController.create",
+        "parameters": [
+          {
+            "description": "Account attributes",
+            "in": "body",
+            "name": "account",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        },
+        "summary": "create a account",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/accounts/refresh_session": {
+      "get": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.AccountController.refresh_session",
+        "parameters": [
+          {
+            "description": "Account attributes",
+            "in": "body",
+            "name": "account",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "refresh account session",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/accounts/sign_in": {
+      "post": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.AccountController.sign_in",
         "parameters": [
           {
             "default": "vazin@gmail.com",
@@ -80,7 +210,7 @@
           },
           {
             "default": "1",
-            "description": "passwordk",
+            "description": "password",
             "in": "query",
             "name": "hash_password",
             "required": true,
@@ -98,7 +228,37 @@
             "description": "Wrong credentials"
           }
         },
-        "summary": "Sign into account",
+        "summary": "sign into account",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/accounts/sign_out": {
+      "get": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.AccountController.sign_out",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "401": {
+            "description": "aunthenticated"
+          },
+          "402": {
+            "description": "invalid_token"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "sing out from account",
         "tags": [
           "Account"
         ]
