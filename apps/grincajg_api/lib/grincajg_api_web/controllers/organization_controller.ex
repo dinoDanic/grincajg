@@ -2,6 +2,7 @@ defmodule GrincajgApiWeb.OrganizationController do
   use GrincajgApiWeb, :controller
   use PhoenixSwagger
 
+  alias Hex.API.Key.Organization
   alias GrincajgApi.Organizations
   alias GrincajgApi.Organizations.Organization
 
@@ -32,6 +33,14 @@ defmodule GrincajgApiWeb.OrganizationController do
   def show(conn, %{"id" => id}) do
     organization = Organizations.get_organization!(id)
     render(conn, :show, organization: organization)
+  end
+
+  def show_active(conn, %{}) do
+    current_account = conn.assigns.account
+    preload = Organizations.preload_organization(current_account)
+
+    conn
+    |> render(:show, organization: preload.organization)
   end
 
   def update(conn, %{"id" => id, "organization" => organization_params}) do
@@ -75,7 +84,10 @@ defmodule GrincajgApiWeb.OrganizationController do
       OrganizationInput:
         swagger_schema do
           title("organization input")
-          description("arguments for creating a organization, a user can have only one organization")
+
+          description(
+            "arguments for creating a organization, a user can have only one organization"
+          )
 
           properties do
             name(:string)
@@ -107,5 +119,14 @@ defmodule GrincajgApiWeb.OrganizationController do
 
     response(200, "ok", Schema.ref(:Organization))
     response(401, "wrong credentials")
+  end
+
+  swagger_path :show_active do
+    get("/organization/active")
+    summary("Get active account organization")
+
+    security([%{Bearer: []}])
+
+    response(200, "Ok", Schema.ref(:Organization))
   end
 end

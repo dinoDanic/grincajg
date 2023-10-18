@@ -63,18 +63,9 @@ defmodule GrincajgApiWeb.AccountController do
     end
   end
 
-  def account_user(conn, %{}) do
+  def show_active(conn, %{}) do
     account = conn.assigns.account
-    render(conn, :render_account_user, account: account)
-  end
-
-  def account_user_with_organization(conn, %{}) do
-    current_account = conn.assigns.account
-    account_organization = Accounts.preload_organization(current_account)
-
-    conn
-    |> put_status(:ok)
-    |> render(:render_account_user_organization, account: account_organization)
+    render(conn, :show, account: account)
   end
 
   def update(conn, %{"current_hash" => current_hash, "account" => account_params}) do
@@ -102,6 +93,20 @@ defmodule GrincajgApiWeb.AccountController do
 
   def swagger_definitions do
     %{
+      User:
+        swagger_schema do
+          title("User")
+
+          properties do
+            first_name(:string)
+            last_name(:string)
+          end
+
+          example(%{
+            first_name: "bob",
+            last_name: "john"
+          })
+        end,
       Account:
         swagger_schema do
           title("Account")
@@ -110,12 +115,40 @@ defmodule GrincajgApiWeb.AccountController do
           properties do
             id(:string)
             email(:string)
+            address(:string)
+            user(Schema.ref(:User))
           end
 
           example(%{
-            id: 1,
+            id: "1",
+            email: "example@email.com",
+            user: %{
+              first_name: "bob",
+              last_name: "john"
+            }
+          })
+        end,
+      AccountWithToken:
+        swagger_schema do
+          title("AccountWithToken")
+          description("AccountWithToken")
+
+          properties do
+            id(:string)
+            email(:string)
+            token(:string)
+            address(:string)
+            user(Schema.ref(:User))
+          end
+
+          example(%{
+            id: "1",
+            email: "example@email.com",
             token: "Bearer token",
-            email: "example@email.com"
+            user: %{
+              first_name: "bob",
+              last_name: "john"
+            }
           })
         end,
       AccountInput:
@@ -142,7 +175,7 @@ defmodule GrincajgApiWeb.AccountController do
       account(:body, Schema.ref(:AccountInput), "Account attributes", required: true)
     end
 
-    response(200, "Ok", Schema.ref(:Account))
+    response(200, "Ok", Schema.ref(:AccountWithToken))
   end
 
   swagger_path :sign_in do
@@ -153,7 +186,7 @@ defmodule GrincajgApiWeb.AccountController do
     parameter(:email, :query, :string, "email", required: true, default: "vazin@gmail.com")
     parameter(:hash_password, :query, :string, "password", required: true, default: "1")
 
-    response(200, "Ok", Schema.ref(:Account))
+    response(200, "Ok", Schema.ref(:AccountWithToken))
     response(401, "Wrong credentials")
   end
 
@@ -181,21 +214,12 @@ defmodule GrincajgApiWeb.AccountController do
     response(200, "Ok", Schema.ref(:Account))
   end
 
-  swagger_path :account_user do
-    get("/accounts/account_user")
-    summary("get account info")
+  swagger_path :show_active do
+    get("/accounts/active")
+    summary("Get active account")
 
     security([%{Bearer: []}])
 
     response(200, "Ok", Schema.ref(:Account))
-  end
-
-  swagger_path :account_user_with_organization do
-    get("/accounts/account_user_with_organization")
-    summary("get organization from user")
-
-    security([%{Bearer: []}])
-
-    response(200, "Ok", Schema.ref(:Organization))
   end
 end

@@ -12,7 +12,7 @@ defmodule GrincajgApiWeb.OrganizationJSON do
   Renders a single organization.
   """
   def show(%{organization: organization}) do
-    %{data: data(organization)}
+    data(organization)
   end
 
   def organization(%{organization: organization}) do
@@ -22,7 +22,8 @@ defmodule GrincajgApiWeb.OrganizationJSON do
   defp data(%Organization{} = organization) do
     %{
       id: organization.id,
-      name: organization.name
+      name: organization.name,
+      address: organization.address
     }
   end
 end

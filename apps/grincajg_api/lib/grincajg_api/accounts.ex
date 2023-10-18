@@ -45,10 +45,6 @@ defmodule GrincajgApi.Accounts do
     |> Repo.one()
   end
 
-  def preload_organization(%Account{} = account) do
-    Repo.preload(account, :organization)
-  end
-
   @doc """
     Gets a single account
 

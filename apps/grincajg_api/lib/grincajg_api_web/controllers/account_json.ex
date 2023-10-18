@@ -14,7 +14,7 @@ defmodule GrincajgApiWeb.AccountJSON do
   Renders a single account.
   """
   def show(%{account: account}) do
-    %{data: data(account)}
+    data(account)
   end
 
   def render("account_token.json", %{account: account, token: token}) do
@@ -22,14 +22,6 @@ defmodule GrincajgApiWeb.AccountJSON do
       id: account.id,
       email: account.email,
       token: token
-    }
-  end
-
-  def render_account_user(%{account: account}) do
-    %{
-      id: account.id,
-      email: account.email,
-      user: UserJSON.user(%{user: account.user})
     }
   end
 
@@ -46,7 +38,7 @@ defmodule GrincajgApiWeb.AccountJSON do
     %{
       id: account.id,
       email: account.email,
-      hash_password: account.hash_password
+      user: UserJSON.user(%{user: account.user})
     }
   end
 end

@@ -31,13 +31,17 @@ defmodule GrincajgApiWeb.Router do
   # PROTECTED ROUTE
   scope "/api", GrincajgApiWeb do
     pipe_through [:api, :auth]
-    get "/accounts/account_user", AccountController, :account_user
-    get "/accounts/account_user_with_organization", AccountController, :account_user_with_organization
+
+    # Accounts
+    get "/accounts/active", AccountController, :show_active
     get "/accounts/sign_out", AccountController, :sign_out
     get "/accounts/refresh_session", AccountController, :refresh_session
     post "/accounts/update", AccountController, :update
     put "/users/update", UserController, :update
+
+    # Organization
     post "/organization/create", OrganizationController, :create
+    get "/organization/active", OrganizationController, :show_active
   end
 
   # SWAGER

@@ -1,4 +1,6 @@
 defmodule GrincajgApi.Organizations do
+  alias GrincajgApi.Accounts.Account
+
   @moduledoc """
   The Organizations context.
   """
@@ -7,6 +9,10 @@ defmodule GrincajgApi.Organizations do
   alias GrincajgApi.Repo
 
   alias GrincajgApi.Organizations.Organization
+
+  def preload_organization(%Account{} = account) do
+    Repo.preload(account, :organization)
+  end
 
   @doc """
   Returns the list of organizations.

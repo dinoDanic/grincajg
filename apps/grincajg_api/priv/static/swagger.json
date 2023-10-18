@@ -9,18 +9,43 @@
       "description": "Account",
       "example": {
         "email": "example@email.com",
-        "id": 1,
-        "token": "Bearer token"
+        "id": "1",
+        "user": {
+          "first_name": "bob",
+          "last_name": "john"
+        }
       },
       "properties": {
+        "address": {
+          "type": "string"
+        },
         "email": {
           "type": "string"
         },
         "id": {
           "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
         }
       },
       "title": "Account",
+      "type": "object"
+    },
+    "User": {
+      "example": {
+        "first_name": "bob",
+        "last_name": "john"
+      },
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      },
+      "title": "User",
       "type": "object"
     },
     "Organization": {
@@ -81,13 +106,44 @@
       },
       "title": "AccountInput",
       "type": "object"
+    },
+    "AccountWithToken": {
+      "description": "AccountWithToken",
+      "example": {
+        "email": "example@email.com",
+        "id": "1",
+        "token": "Bearer token",
+        "user": {
+          "first_name": "bob",
+          "last_name": "john"
+        }
+      },
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "title": "AccountWithToken",
+      "type": "object"
     }
   },
   "paths": {
-    "/accounts/account_user": {
+    "/accounts/active": {
       "get": {
         "description": "",
-        "operationId": "GrincajgApiWeb.AccountController.account_user",
+        "operationId": "GrincajgApiWeb.AccountController.show_active",
         "parameters": [],
         "responses": {
           "200": {
@@ -102,31 +158,7 @@
             "Bearer": []
           }
         ],
-        "summary": "get account info",
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/accounts/account_user_with_organization": {
-      "get": {
-        "description": "",
-        "operationId": "GrincajgApiWeb.AccountController.account_user_with_organization",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "schema": {
-              "$ref": "#/definitions/Organization"
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "summary": "get organization from user",
+        "summary": "Get active account",
         "tags": [
           "Account"
         ]
@@ -151,7 +183,7 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Account"
+              "$ref": "#/definitions/AccountWithToken"
             }
           }
         },
@@ -221,7 +253,7 @@
           "200": {
             "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/Account"
+              "$ref": "#/definitions/AccountWithToken"
             }
           },
           "401": {
@@ -261,6 +293,30 @@
         "summary": "sing out from account",
         "tags": [
           "Account"
+        ]
+      }
+    },
+    "/organization/active": {
+      "get": {
+        "description": "",
+        "operationId": "GrincajgApiWeb.OrganizationController.show_active",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Organization"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Get active account organization",
+        "tags": [
+          "Organization"
         ]
       }
     },
