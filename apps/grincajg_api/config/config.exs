@@ -40,6 +40,18 @@ config :guardian, Guardian.DB,
   schema_name: "guardian_tokens",
   sweep_interval: 60
 
+config :grincajg_api, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      # phoenix routes will be converted to swagger paths
+      router: GrincajgApiWeb.Router,
+      # (optional) endpoint config used to set host, port and https schemes.
+      endpoint: GrincajgApiWeb.Endpoint
+    ]
+  }
+
+config :phoenix_swagger, json_library: Jason
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

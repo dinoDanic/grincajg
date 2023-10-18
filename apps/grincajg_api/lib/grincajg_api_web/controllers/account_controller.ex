@@ -1,5 +1,6 @@
 defmodule GrincajgApiWeb.AccountController do
   use GrincajgApiWeb, :controller
+  use PhoenixSwagger
 
   alias GrincajgApiWeb.Auth.ErrorResponse
   alias GrincajgApiWeb.Auth.Guardian
@@ -69,10 +70,6 @@ defmodule GrincajgApiWeb.AccountController do
 
   def me_account(conn, %{}) do
     account = conn.assigns.account
-
-    conn
-    |> put_status(:ok)
-
     render(conn, :render_me_account, account: account)
   end
 
@@ -104,5 +101,41 @@ defmodule GrincajgApiWeb.AccountController do
     with {:ok, %Account{}} <- Accounts.delete_account(account) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  # SWAGGER
+
+  def swagger_definitions do
+    %{
+      Account:
+        swagger_schema do
+          title("Account")
+          description("Account")
+
+          properties do
+            id(:string, "id")
+            email(:string, "email")
+          end
+
+          example(%{
+            id: 1,
+            token:
+              "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJncmluY2FqZ19hcGkiLCJleHAiOjE2OTc2NDQ2MDEsImlhdCI6MTY5NzYzNzQwMSwiaXNzIjoiZ3JpbmNhamdfYXBpIiwianRpIjoiODAyOTFiNjItNTUwYi00ZTEyLTgwZmQtMjg3Y2MxOGZmNGI2IiwibmJmIjoxNjk3NjM3NDAwLCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.XjLNL_ToTqxbsZAd6lJ7GPWSsL_KIUuDSOSBkQf83yzq7IqreaISrfE-_SIBdGc-q6SOLbIA366gU4lOD1hzaA",
+            email: "email@email.com"
+          })
+        end
+    }
+  end
+
+  swagger_path :create do
+    post("/accounts/sign_in")
+    summary("List all recorded activities")
+    description("List all recorded activities")
+
+    parameter(:email, :query, :string, "email", required: true, default: "vazin@kita.com")
+    parameter(:hash_password, :query, :string, "passwordk", required: true, default: "1")
+
+    response(200, "Ok", Schema.ref(:Account))
+    response(401, "Wrong credentials")
   end
 end

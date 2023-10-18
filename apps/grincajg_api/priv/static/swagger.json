@@ -1,0 +1,72 @@
+{
+  "info": {
+    "version": "1.0",
+    "title": "Grincajg"
+  },
+  "host": "localhost:4000",
+  "definitions": {
+    "Account": {
+      "description": "Account",
+      "example": {
+        "email": "email@email.com",
+        "id": 1,
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJncmluY2FqZ19hcGkiLCJleHAiOjE2OTc2NDQ2MDEsImlhdCI6MTY5NzYzNzQwMSwiaXNzIjoiZ3JpbmNhamdfYXBpIiwianRpIjoiODAyOTFiNjItNTUwYi00ZTEyLTgwZmQtMjg3Y2MxOGZmNGI2IiwibmJmIjoxNjk3NjM3NDAwLCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.XjLNL_ToTqxbsZAd6lJ7GPWSsL_KIUuDSOSBkQf83yzq7IqreaISrfE-_SIBdGc-q6SOLbIA366gU4lOD1hzaA"
+      },
+      "properties": {
+        "email": {
+          "description": "email",
+          "type": "string"
+        },
+        "id": {
+          "description": "id",
+          "type": "string"
+        }
+      },
+      "title": "Account",
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/accounts/sign_in": {
+      "post": {
+        "description": "List all recorded activities",
+        "operationId": "GrincajgApiWeb.AccountController.create",
+        "parameters": [
+          {
+            "default": "vazin@kita.com",
+            "description": "email",
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": "1",
+            "description": "passwordk",
+            "in": "query",
+            "name": "hash_password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "401": {
+            "description": "Wrong credentials"
+          }
+        },
+        "summary": "List all recorded activities",
+        "tags": [
+          "Account"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "basePath": "/api"
+}

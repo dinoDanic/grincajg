@@ -38,4 +38,21 @@ defmodule GrincajgApiWeb.Router do
     post "/accounts/update", AccountController, :update
     put "/users/update", UserController, :update
   end
+
+  # SWAGER
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI,
+      otp_app: :grincajg_api,
+      swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      basePath: "/api",
+      info: %{
+        version: "1.0",
+        title: "Grincajg"
+      }
+    }
+  end
 end

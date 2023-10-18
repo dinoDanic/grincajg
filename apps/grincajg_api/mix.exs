@@ -9,7 +9,8 @@ defmodule GrincajgApi.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      compilers: Mix.compilers() ++ [:phoenix_swagger]
     ]
   end
 
@@ -44,7 +45,9 @@ defmodule GrincajgApi.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.3.2"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:guardian_db, "~> 2.0"}
+      {:guardian_db, "~> 2.0"},
+      {:phoenix_swagger, "~> 0.8"},
+      {:ex_json_schema, "~> 0.5"}
     ]
   end
 
@@ -59,7 +62,7 @@ defmodule GrincajgApi.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "swagger", "test"]
     ]
   end
 end

@@ -1,6 +1,5 @@
 defmodule GrincajgApiWeb.AccountJSON do
   alias GrincajgApiWeb.OrganizationJSON
-  alias Hex.API.Key.Organization
   alias GrincajgApiWeb.UserJSON
   alias GrincajgApi.Accounts.Account
 
