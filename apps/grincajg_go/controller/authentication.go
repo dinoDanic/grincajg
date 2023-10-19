@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-  "grincajg_api/helper"
+	"grincajg_api/helper"
 	"grincajg_api/model"
 	"net/http"
 )
