@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"fmt"
-	"grincajg/initializers"
+	"grincajg/database"
+	"grincajg/env"
 	"grincajg/models"
 	"strings"
 	"time"
@@ -13,35 +14,35 @@ import (
 )
 
 func SignUpUser(c *fiber.Ctx) error {
-	var payload *models.SignUpInput
+	var input *models.SignUpInput
 
-	if err := c.BodyParser(&payload); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 	}
 
-	errors := models.ValidateStruct(payload)
+	errors := models.ValidateStruct(input)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "errors": errors})
 	}
 
-	if payload.Password != payload.PasswordConfirm {
+	if input.Password != input.PasswordConfirm {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Passwords do not match"})
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 	}
 
 	newUser := models.User{
-		Name:     payload.Name,
-		Email:    strings.ToLower(payload.Email),
+		Name:     input.Name,
+		Email:    strings.ToLower(input.Email),
 		Password: string(hashedPassword),
-		Photo:    &payload.Photo,
+		Photo:    &input.Photo,
 	}
 
-	result := initializers.DB.Create(&newUser)
+	result := database.DB.Create(&newUser)
 
 	if result.Error != nil && strings.Contains(result.Error.Error(), "duplicate key value violates unique") {
 		return c.Status(fiber.StatusConflict).JSON(fiber.Map{"status": "fail", "message": "User with that email already exists"})
@@ -53,30 +54,30 @@ func SignUpUser(c *fiber.Ctx) error {
 }
 
 func SignInUser(c *fiber.Ctx) error {
-	var payload *models.SignInInput
+	var input *models.SignInInput
 
-	if err := c.BodyParser(&payload); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 	}
 
-	errors := models.ValidateStruct(payload)
+	errors := models.ValidateStruct(input)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
 
 	}
 
 	var user models.User
-	result := initializers.DB.First(&user, "email = ?", strings.ToLower(payload.Email))
+	result := database.DB.First(&user, "email = ?", strings.ToLower(input.Email))
 	if result.Error != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Invalid email or Password"})
 	}
 
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Invalid email or Password"})
 	}
 
-	config, _ := initializers.LoadConfig(".")
+	config, _ := env.LoadConfig(".")
 
 	tokenByte := jwt.New(jwt.SigningMethodHS256)
 

@@ -2,7 +2,8 @@ package middleware
 
 import (
 	"fmt"
-	"grincajg/initializers"
+	"grincajg/database"
+	"grincajg/env"
 	"grincajg/models"
 	"strings"
 
@@ -24,7 +25,7 @@ func DeserializeUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": "You are not logged in"})
 	}
 
-	config, _ := initializers.LoadConfig(".")
+	config, _ := env.LoadConfig(".")
 
 	tokenByte, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
 		if _, ok := jwtToken.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -44,7 +45,7 @@ func DeserializeUser(c *fiber.Ctx) error {
 	}
 
 	var user models.User
-	initializers.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
+	database.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
 
 	if user.ID.String() != claims["sub"] {
 		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"status": "fail", "message": "the user belonging to this token no logger exists"})

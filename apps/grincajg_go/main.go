@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"grincajg/controllers"
-	"grincajg/initializers"
+	"grincajg/database"
+	"grincajg/env"
 	"grincajg/middleware"
+	"grincajg/models"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,15 +14,27 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
-func init() {
-	config, err := initializers.LoadConfig(".")
+func main() {
+	config := loadEnv()
+	loadDatabase(config)
+	serveApplication()
+}
+
+func loadEnv() env.Config {
+	config, err := env.LoadConfig(".")
 	if err != nil {
 		log.Fatalln("Failed to load environment variables! \n", err.Error())
 	}
-	initializers.ConnectDB(&config)
+	return config
 }
 
-func main() {
+func loadDatabase(config env.Config) {
+	database.Connect(config)
+	database.DB.AutoMigrate(&models.User{})
+	database.DB.AutoMigrate(&models.Organization{})
+}
+
+func serveApplication() {
 	app := fiber.New()
 	micro := fiber.New()
 

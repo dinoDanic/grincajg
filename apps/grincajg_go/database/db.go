@@ -1,8 +1,8 @@
-package initializers
+package database
 
 import (
 	"fmt"
-	"grincajg/models"
+	"grincajg/env"
 	"log"
 	"os"
 
@@ -13,7 +13,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDB(config *Config) {
+func Connect(config env.Config) {
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", config.DBHost, config.DBUserName, config.DBUserPassword, config.DBName, config.DBPort)
 
@@ -25,13 +25,6 @@ func ConnectDB(config *Config) {
 
 	DB.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
 	DB.Logger = logger.Default.LogMode(logger.Info)
-
-	log.Println("Running Migrations")
-	err = DB.AutoMigrate(&models.User{})
-	if err != nil {
-		log.Fatal("Migration Failed:  \n", err.Error())
-		os.Exit(1)
-	}
 
 	log.Println("🚀 Connected Successfully to the Database")
 }
