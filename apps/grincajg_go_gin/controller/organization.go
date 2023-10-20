@@ -1,17 +1,18 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"grincajg_api/helper"
 	"grincajg_api/model"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func AddEntry(context *gin.Context) {
-	var input model.Entry
+func CreateOrganization(context *gin.Context) {
+	var input model.Organization
+
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
 	}
 
 	user, err := helper.CurrentUser(context)
@@ -30,16 +31,6 @@ func AddEntry(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"data": savedEntry})
-}
+	context.JSON(http.StatusOK, gin.H{"data": savedEntry})
 
-func GetAllEntries(context *gin.Context) {
-	user, err := helper.CurrentUser(context)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	context.JSON(http.StatusOK, gin.H{"data": user.Entries})
 }
