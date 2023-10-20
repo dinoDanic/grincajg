@@ -54,6 +54,7 @@ func serveApplication() {
 	})
 
 	micro.Get("/users/me", middleware.DeserializeUser, controllers.GetMe)
+	micro.Post("/organization", middleware.DeserializeUser, controllers.CreateOrganization)
 
 	micro.Get("/healthchecker", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{

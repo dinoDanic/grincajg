@@ -13,3 +13,7 @@ type Organization struct {
 	CreatedAt *time.Time `gorm:"not null;default:now()"`
 	UpdatedAt *time.Time `gorm:"not null;default:now()"`
 }
+
+type CreateOrganizationInput struct {
+	Name string `json:"name"  validate:"required"`
+}
