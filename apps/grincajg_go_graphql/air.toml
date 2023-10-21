@@ -1,0 +1,6 @@
+
+# .air.toml
+root = "."
+cmd = "go run server.go"
+bin = "tmp/main"
+full_bin = "tmp/main"

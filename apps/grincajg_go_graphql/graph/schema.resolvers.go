@@ -6,27 +6,52 @@ package graph
 
 import (
 	"context"
-	"crypto/rand"
 	"fmt"
+	"grincajg/database"
 	"grincajg/graph/model"
-	"math/big"
+	"strings"
+
+	"github.com/vektah/gqlparser/v2/gqlerror"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	randNumber, _ := rand.Int(rand.Reader, big.NewInt(100))
-	todo := &model.Todo{
-		Text:   input.Text,
-		ID:     fmt.Sprintf("T%d", randNumber),
-		UserID: input.UserID,
+	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+}
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
+	if input.Password != input.PasswordConfirm {
+		return &model.User{}, gqlerror.Errorf("passwords do not mach")
 	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+
+	if err != nil {
+		return &model.User{}, gqlerror.Errorf(err.Error())
+	}
+
+	newUser := model.User{
+		Name:     input.Name,
+		Email:    strings.ToLower(input.Email),
+		Password: string(hashedPassword),
+		Photo:    input.Photo,
+	}
+
+	result := database.DB.Create(&newUser)
+
+	if result.Error != nil && strings.Contains(result.Error.Error(), "duplicate key value violates unique") {
+		return &model.User{}, gqlerror.Errorf("User with that email already exists")
+	} else if result.Error != nil {
+		return &model.User{}, gqlerror.Errorf("Something bad happened")
+	}
+	return &newUser, nil
 }
 
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
+	panic(fmt.Errorf("not implemented: Todos - todos"))
 }
 
 // User is the resolver for the user field.

@@ -2,7 +2,19 @@
 
 package model
 
+type CreateUserInput struct {
+	Name            string  `json:"name"`
+	Email           string  `json:"email"`
+	Password        string  `json:"Password"`
+	PasswordConfirm string  `json:"PasswordConfirm"`
+	Photo           *string `json:"Photo,omitempty"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
+}
+
+type Session struct {
+	Token *string `json:"token,omitempty"`
 }
