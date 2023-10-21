@@ -1,7 +1,10 @@
 package main
 
 import (
+	"grincajg/database"
+	"grincajg/env"
 	"grincajg/graph"
+	"grincajg/graph/model"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +16,26 @@ import (
 const defaultPort = "8080"
 
 func main() {
+	config := loadEnv()
+	loadDatabase(config)
+	serveApplication()
+}
+
+func loadEnv() env.Config {
+	config, err := env.LoadConfig(".")
+	if err != nil {
+		log.Fatalln("Failed to load environment variables! \n", err.Error())
+	}
+	return config
+}
+
+func loadDatabase(config env.Config) {
+	database.Connect(config)
+	database.DB.AutoMigrate(&model.User{})
+	database.DB.AutoMigrate(&model.Organization{})
+}
+
+func serveApplication() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
