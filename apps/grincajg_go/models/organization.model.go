@@ -1,6 +1,7 @@
 package models
 
 import (
+	"grincajg/database"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,4 +17,12 @@ type Organization struct {
 
 type CreateOrganizationInput struct {
 	Name string `json:"name"  validate:"required"`
+}
+
+func (organization *Organization) Save() (*Organization, error) {
+	err := database.DB.Create(&organization).Error
+	if err != nil {
+		return &Organization{}, err
+	}
+	return organization, nil
 }
