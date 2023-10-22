@@ -8,9 +8,12 @@ import (
 	"context"
 	"fmt"
 	"grincajg/database"
+	"grincajg/env"
 	"grincajg/graph/model"
 	"strings"
+	"time"
 
+	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -52,6 +55,44 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUse
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	panic(fmt.Errorf("not implemented: Todos - todos"))
+}
+
+// SignIn is the resolver for the signIn field.
+func (r *queryResolver) SignIn(ctx context.Context, input model.SignInInput) (*model.Session, error) {
+	var user model.User
+	result := database.DB.First(&user, "email = ?", strings.ToLower(input.Email))
+	if result.Error != nil {
+		return &model.Session{}, gqlerror.Errorf("invalid email or pass")
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+	if err != nil {
+		return &model.Session{}, gqlerror.Errorf("invalid email or pass")
+	}
+
+	config, _ := env.LoadConfig(".")
+
+	tokenByte := jwt.New(jwt.SigningMethodHS256)
+
+	now := time.Now().UTC()
+	claims := tokenByte.Claims.(jwt.MapClaims)
+
+	claims["sub"] = user.ID
+	claims["exp"] = now.Add(config.JwtExpiresIn).Unix()
+	claims["iat"] = now.Unix()
+	claims["nbf"] = now.Unix()
+
+	tokenString, err := tokenByte.SignedString([]byte(config.JwtSecret))
+
+	if err != nil {
+		return &model.Session{}, gqlerror.Errorf("generating JWT Token failed")
+	}
+
+	session := model.Session{
+		Token: &tokenString,
+	}
+
+	return &session, nil
 }
 
 // User is the resolver for the user field.

@@ -5,6 +5,7 @@ go 1.21.3
 require (
 	github.com/99designs/gqlgen v0.17.39
 	github.com/go-playground/validator/v10 v10.15.5
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/google/uuid v1.3.1
 	github.com/spf13/viper v1.17.0
 	github.com/vektah/gqlparser/v2 v2.5.10
