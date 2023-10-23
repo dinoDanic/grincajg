@@ -12,8 +12,20 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/swagger"
+	_ "grincajg/docs"
 )
 
+// @title Grincajg API 2
+// @version 1.0
+// @description This is a sample swagger for Fiber
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email fiber@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8000
+// @BasePath /api
 func main() {
 	config := loadEnv()
 	loadDatabase(config)
@@ -39,6 +51,7 @@ func serveApplication() {
 	micro := fiber.New()
 
 	app.Mount("/api", micro)
+
 	app.Use(logger.New())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
@@ -70,6 +83,8 @@ func serveApplication() {
 			"message": fmt.Sprintf("Path: %v does not exists on this server", path),
 		})
 	})
+
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	log.Fatal(app.Listen(":8000"))
 }

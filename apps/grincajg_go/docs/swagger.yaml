@@ -1,0 +1,170 @@
+basePath: /api
+definitions:
+  models.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  models.SignInInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.SignUpInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      passwordConfirm:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - passwordConfirm
+    type: object
+  models.UserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ValidateErrorResponse:
+    properties:
+      field:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Grincajg API 2
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows a user to log in by providing necessary information.
+      parameters:
+      - description: User login details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT token successfully returned
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Validation error'
+          schema:
+            $ref: '#/definitions/models.ValidateErrorResponse'
+        "502":
+          description: 'Bad Gateway: Something bad happened'
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Log in a user
+      tags:
+      - Users
+  /auth/logout:
+    post:
+      description: This endpoint allows a user to log out.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User successfully logged out
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Log out a user
+      tags:
+      - Users
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows a user to sign up by providing necessary information.
+      parameters:
+      - description: User signup details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User successfully created
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: bas request
+          schema:
+            $ref: '#/definitions/models.ValidateErrorResponse'
+        "409":
+          description: 'Conflict: User with that email already exists'
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "502":
+          description: 'Bad Gateway: Something bad happened'
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Sign up a new user
+      tags:
+      - Users
+  /users/me:
+    get:
+      description: This endpoint returns the details of the current logged in user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Current user data successfully returned
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: 'Unauthorized: User not logged in'
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get the current user
+      tags:
+      - Users
+swagger: "2.0"
