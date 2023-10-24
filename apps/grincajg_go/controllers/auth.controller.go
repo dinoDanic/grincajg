@@ -19,7 +19,7 @@ import (
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param input body models.SignUpInput true "User signup details" 
+// @Param input body models.SignUpInput true "User signup details"
 // @Success 201 {object} models.UserResponse "User successfully created"
 // @Failure 400 {object} models.ValidateErrorResponse "bas request"
 // @Failure 409 {object} models.ErrorResponse "Conflict: User with that email already exists"
@@ -153,11 +153,10 @@ func LogoutUser(c *fiber.Ctx) error {
 // @Description This endpoint returns the details of the current logged in user.
 // @Tags Users
 // @Produce json
-// @Success 200 {object} map[string]interface{} "Current user data successfully returned"
+// @Success 200 {object} models.User "Current user data successfully returned"
 // @Failure 401 {object} models.ErrorResponse "Unauthorized: User not logged in"
 // @Router /users/me [get]
 func GetMe(c *fiber.Ctx) error {
 	user := c.Locals("user").(models.UserResponse)
-
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"user": user}})
 }
