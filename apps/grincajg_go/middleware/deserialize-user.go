@@ -3,8 +3,8 @@ package middleware
 import (
 	"fmt"
 	"grincajg/database"
-	"grincajg/env"
 	"grincajg/models"
+	"os"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,14 +25,14 @@ func DeserializeUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": "You are not logged in"})
 	}
 
-	config, _ := env.LoadConfig()
-
 	tokenByte, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
 		if _, ok := jwtToken.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %s", jwtToken.Header["alg"])
 		}
 
-		return []byte(config.JwtSecret), nil
+		JWT_SECRET := os.Getenv("JWT_SECRET")
+
+		return []byte(JWT_SECRET), nil
 	})
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": fmt.Sprintf("invalidate token: %v", err)})

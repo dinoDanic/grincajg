@@ -16,9 +16,9 @@ FROM debian:buster-slim
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /app/grincajg_go /grincajg_go
 
-COPY .env /app
+COPY .env /
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Run the web service on container startup.
 CMD ["/grincajg_go"]

@@ -7,6 +7,7 @@ import (
 	"grincajg/middleware"
 	"grincajg/models"
 	"log"
+	"os"
 
 	_ "grincajg/docs"
 
@@ -25,7 +26,7 @@ import (
 // @contact.email fiber@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8000
+// @host localhost:8080
 // @BasePath /api
 func main() {
 	loadEnv()
@@ -40,14 +41,6 @@ func loadEnv() {
 	}
 }
 
-// func loadEnv() env.Config {
-// 	config, err := env.LoadConfig()
-// 	if err != nil {
-// 		log.Fatalln("Failed to load environment variables! \n", err.Error())
-// 	}
-// 	return config
-// }
-
 func loadDatabase() {
 	database.Connect()
 	database.DB.AutoMigrate(&models.User{})
@@ -55,6 +48,10 @@ func loadDatabase() {
 }
 
 func serveApplication() {
+	log.Println("boooooooooooooooooooooook")
+	postgres_host := os.Getenv("POSTGRES_HOST")
+	log.Println(postgres_host)
+	log.Println("boooooooooooooooooooooook")
 	app := fiber.New()
 	micro := fiber.New()
 
@@ -94,5 +91,5 @@ func serveApplication() {
 
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
-	log.Fatal(app.Listen(":8000"))
+	log.Fatal(app.Listen(":8080"))
 }

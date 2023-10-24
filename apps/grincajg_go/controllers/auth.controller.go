@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 	"grincajg/database"
-	"grincajg/env"
 	"grincajg/models"
+	"os"
 	"strings"
 	"time"
 
@@ -100,7 +100,7 @@ func SignInUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Invalid email or Password"})
 	}
 
-	config, _ := env.LoadConfig()
+	JWT_SECRET := os.Getenv("JWT_SECRET")
 
 	tokenByte := jwt.New(jwt.SigningMethodHS256)
 
@@ -108,11 +108,11 @@ func SignInUser(c *fiber.Ctx) error {
 	claims := tokenByte.Claims.(jwt.MapClaims)
 
 	claims["sub"] = user.ID
-	claims["exp"] = now.Add(config.JwtExpiresIn).Unix()
+	claims["exp"] = now.Add(time.Hour).Unix()
 	claims["iat"] = now.Unix()
 	claims["nbf"] = now.Unix()
 
-	tokenString, err := tokenByte.SignedString([]byte(config.JwtSecret))
+	tokenString, err := tokenByte.SignedString([]byte(JWT_SECRET))
 
 	if err != nil {
 		return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"status": "fail", "message": fmt.Sprintf("generating JWT Token failed: %v", err)})
@@ -122,7 +122,7 @@ func SignInUser(c *fiber.Ctx) error {
 		Name:     "token",
 		Value:    tokenString,
 		Path:     "/",
-		MaxAge:   config.JwtMaxAge * 60,
+		MaxAge:   60 * 60,
 		Secure:   false,
 		HTTPOnly: true,
 		Domain:   "localhost",
