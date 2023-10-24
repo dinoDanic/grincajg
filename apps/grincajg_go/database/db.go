@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"grincajg/env"
 	"log"
 	"os"
 
@@ -13,9 +12,17 @@ import (
 
 var DB *gorm.DB
 
-func Connect(config env.Config) {
+func Connect() {
+
 	var err error
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", config.DBHost, config.DBUserName, config.DBUserPassword, config.DBName, config.DBPort)
+
+	postgres_host := os.Getenv("POSTGRES_HOST")
+	postgres_user := os.Getenv("POSTGRES_USER")
+	postgres_password := os.Getenv("POSTGRES_PASSWORD")
+	postgres_db := os.Getenv("POSTGRES_DB")
+	postgres_port := os.Getenv("POSTGRES_PORT")
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", postgres_host, postgres_user, postgres_password, postgres_db, postgres_port)
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

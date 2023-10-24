@@ -16,14 +16,12 @@ type Config struct {
 	JwtSecret    string        `mapstructure:"JWT_SECRET"`
 	JwtExpiresIn time.Duration `mapstructure:"JWT_EXPIRED_IN"`
 	JwtMaxAge    int           `mapstructure:"JWT_MAXAGE"`
-
-	ClientOrigin string `mapstructure:"CLIENT_ORIGIN"`
 }
 
-func LoadConfig(path string) (config Config, err error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigType("env")
+func LoadConfig() (config Config, err error) {
+	viper.AddConfigPath(".")
 	viper.SetConfigName("app")
+	viper.SetConfigType("pero")
 
 	viper.AutomaticEnv()
 

@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"grincajg/controllers"
 	"grincajg/database"
-	"grincajg/env"
 	"grincajg/middleware"
 	"grincajg/models"
 	"log"
+
+	_ "grincajg/docs"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
-	_ "grincajg/docs"
+	"github.com/joho/godotenv"
 )
 
-// @title Grincajg API 2
+// @title Grincajg API
 // @version 1.0
 // @description This is a sample swagger for Fiber
 // @termsOfService http://swagger.io/terms/
@@ -27,21 +28,28 @@ import (
 // @host localhost:8000
 // @BasePath /api
 func main() {
-	config := loadEnv()
-	loadDatabase(config)
+	loadEnv()
+	loadDatabase()
 	serveApplication()
 }
 
-func loadEnv() env.Config {
-	config, err := env.LoadConfig(".")
+func loadEnv() {
+	err := godotenv.Load()
 	if err != nil {
-		log.Fatalln("Failed to load environment variables! \n", err.Error())
+		log.Fatal("Error loading .env file")
 	}
-	return config
 }
 
-func loadDatabase(config env.Config) {
-	database.Connect(config)
+// func loadEnv() env.Config {
+// 	config, err := env.LoadConfig()
+// 	if err != nil {
+// 		log.Fatalln("Failed to load environment variables! \n", err.Error())
+// 	}
+// 	return config
+// }
+
+func loadDatabase() {
+	database.Connect()
 	database.DB.AutoMigrate(&models.User{})
 	database.DB.AutoMigrate(&models.Organization{})
 }

@@ -100,7 +100,7 @@ func SignInUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Invalid email or Password"})
 	}
 
-	config, _ := env.LoadConfig(".")
+	config, _ := env.LoadConfig()
 
 	tokenByte := jwt.New(jwt.SigningMethodHS256)
 
