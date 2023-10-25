@@ -7,7 +7,6 @@ import (
 	"grincajg/middleware"
 	"grincajg/models"
 	"log"
-	"os"
 
 	_ "grincajg/docs"
 
@@ -48,10 +47,6 @@ func loadDatabase() {
 }
 
 func serveApplication() {
-	log.Println("boooooooooooooooooooooook")
-	postgres_host := os.Getenv("POSTGRES_HOST")
-	log.Println(postgres_host)
-	log.Println("boooooooooooooooooooooook")
 	app := fiber.New()
 	micro := fiber.New()
 

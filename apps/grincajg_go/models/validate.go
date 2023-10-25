@@ -4,23 +4,18 @@ import "github.com/go-playground/validator/v10"
 
 var validate = validator.New()
 
-type ValidateErrorResponse struct {
+type ErrorResponse struct {
 	Field string `json:"field"`
 	Tag   string `json:"tag"`
 	Value string `json:"value,omitempty"`
 }
 
-type ErrorResponse struct {
-  Status  string `json:"status"`
-  Message string `json:"message"`
-}
-
-func ValidateStruct[T any](payload T) []*ValidateErrorResponse {
-	var errors []*ValidateErrorResponse
+func ValidateStruct[T any](payload T) []*ErrorResponse {
+	var errors []*ErrorResponse
 	err := validate.Struct(payload)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
-			var element ValidateErrorResponse
+			var element ErrorResponse
 			element.Field = err.StructNamespace()
 			element.Tag = err.Tag()
 			element.Value = err.Param()

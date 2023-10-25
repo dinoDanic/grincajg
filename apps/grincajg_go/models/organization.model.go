@@ -1,28 +1,39 @@
 package models
 
 import (
+	"gorm.io/gorm"
 	"grincajg/database"
-	"time"
-
-	"github.com/google/uuid"
 )
 
 type Organization struct {
-	ID        *uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
-	Name      string     `gorm:"type:varchar(100);not null"`
-	UserID    *uuid.UUID
-	CreatedAt *time.Time `gorm:"not null;default:now()"`
-	UpdatedAt *time.Time `gorm:"not null;default:now()"`
+	gorm.Model
+	Name   string `gorm:"type:varchar(100);not null"`
+	UserID uint   `gorm:"unique;foreignKey:User"`
+	User   User
 }
 
 type CreateOrganizationInput struct {
 	Name string `json:"name"  validate:"required"`
 }
 
-func (organization *Organization) Save() (*Organization, error) {
+type OrganizationResponse struct {
+	Name string `json:"name,omitempty"`
+}
+
+func FilterOrganizationResponse(organization Organization) OrganizationResponse {
+	return OrganizationResponse{
+		Name: organization.Name,
+	}
+}
+
+func (organization *Organization) SaveOrganization() (*OrganizationResponse, error) {
 	err := database.DB.Create(&organization).Error
 	if err != nil {
-		return &Organization{}, err
+		return &OrganizationResponse{}, err
 	}
-	return organization, nil
+
+	filterResponse := FilterOrganizationResponse(*organization)
+
+	return &filterResponse, nil
+
 }

@@ -47,8 +47,11 @@ func DeserializeUser(c *fiber.Ctx) error {
 	var user models.User
 	database.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
 
-	if user.ID.String() != claims["sub"] {
-		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"status": "fail", "message": "the user belonging to this token no logger exists"})
+	userIdStr := fmt.Sprintf("%d", user.ID)
+	claimsSubStr := fmt.Sprintf("%.0f", claims["sub"].(float64))
+
+	if userIdStr != claimsSubStr {
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"status": "fail", "message": "The user belonging to this token no longer exists"})
 	}
 
 	c.Locals("user", models.FilterUserRecord(&user))
