@@ -4,7 +4,6 @@ import (
 	"grincajg/database"
 	"grincajg/models"
 	"grincajg/response"
-	// "log"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,8 +24,8 @@ func CreateStore(c *fiber.Ctx) error {
 	user := models.GetContextUser(c)
 	database.DB.Preload("Organization").First(user)
 
-	if user.Organization.ID == 0 {
-		return response.ErrorResponse(c, "You dont belong to a organization")
+	if user.Organization == nil {
+		return response.ErrorResponse(c, "User does not belong to any organization")
 	}
 
 	newStore := models.Store{
@@ -42,5 +41,22 @@ func CreateStore(c *fiber.Ctx) error {
 	}
 
 	return response.SuccessResponse(c, models.FilterStoreRecord(*storeEntry))
+
+}
+
+func GetOrganizationStores(c *fiber.Ctx) error {
+	user := models.GetContextUser(c)
+
+	err := database.DB.Preload("Organization.Stores").Find(user).Error
+
+	if err != nil {
+		return response.ErrorResponse(c, err.Error())
+	}
+
+	if user.Organization == nil {
+		return response.ErrorResponse(c, "User does not belong to any organization")
+	}
+
+	return response.SuccessResponse(c, models.FilterStoreRecords(user.Organization.Stores))
 
 }

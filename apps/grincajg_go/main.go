@@ -67,10 +67,8 @@ func serveApplication() {
 	micro.Route("/organization", func(router fiber.Router) {
 		router.Post("/", middleware.DeserializeUser, controllers.CreateOrganization)
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
-	})
-
-	micro.Route("/store", func(router fiber.Router) {
-		router.Post("/", middleware.DeserializeUser, controllers.CreateStore)
+		router.Post("/create-store", middleware.DeserializeUser, controllers.CreateStore)
+		router.Get("/stores", middleware.DeserializeUser, controllers.GetOrganizationStores)
 	})
 
 	micro.Route("/users", func(router fiber.Router) {

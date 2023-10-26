@@ -19,6 +19,7 @@ type CreateStoreInput struct {
 }
 
 type StoreRecord struct {
+	ID      uint   `json:"id,omitempty"`
 	Name    string `json:"name,omitempty"`
 	Address string `json:"address,omitempty"`
 }
@@ -27,7 +28,17 @@ func FilterStoreRecord(store Store) StoreRecord {
 	return StoreRecord{
 		Name:    store.Name,
 		Address: store.Address,
+		ID:      store.ID,
 	}
+}
+
+func FilterStoreRecords(stores []Store) []StoreRecord {
+	var storeRecords []StoreRecord
+	for _, store := range stores {
+		record := FilterStoreRecord(store)
+		storeRecords = append(storeRecords, record)
+	}
+	return storeRecords
 }
 
 func (store *Store) SaveStore() (*Store, error) {
