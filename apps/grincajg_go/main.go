@@ -5,7 +5,7 @@ import (
 	"grincajg/controllers"
 	"grincajg/database"
 	"grincajg/middleware"
-	"grincajg/models"
+	// "grincajg/models"
 	"log"
 
 	_ "grincajg/docs"
@@ -42,8 +42,8 @@ func loadEnv() {
 
 func loadDatabase() {
 	database.Connect()
-	database.DB.AutoMigrate(&models.User{})
-	database.DB.AutoMigrate(&models.Organization{})
+	// database.DB.AutoMigrate(&models.User{})
+	// database.DB.AutoMigrate(&models.Organization{})
 }
 
 func serveApplication() {
@@ -66,8 +66,14 @@ func serveApplication() {
 		router.Get("/logout", middleware.DeserializeUser, controllers.LogoutUser)
 	})
 
-	micro.Get("/users/me", middleware.DeserializeUser, controllers.GetMe)
-	micro.Post("/organization", middleware.DeserializeUser, controllers.CreateOrganization)
+	micro.Route("/organization", func(router fiber.Router) {
+		router.Post("/", middleware.DeserializeUser, controllers.CreateOrganization)
+		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
+	})
+
+	micro.Route("/users", func(router fiber.Router) {
+		router.Get("/me", middleware.DeserializeUser, controllers.GetMe)
+	})
 
 	micro.Get("/healthchecker", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{

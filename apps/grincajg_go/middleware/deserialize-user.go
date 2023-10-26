@@ -54,7 +54,7 @@ func DeserializeUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"status": "fail", "message": "The user belonging to this token no longer exists"})
 	}
 
-	c.Locals("user", models.FilterUserRecord(&user))
+	c.Locals("user", &user)
 
 	return c.Next()
 }

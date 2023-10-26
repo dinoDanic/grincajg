@@ -157,6 +157,6 @@ func LogoutUser(c *fiber.Ctx) error {
 // @Failure 401 {object} models.ErrorResponse "Unauthorized: User not logged in"
 // @Router /users/me [get]
 func GetMe(c *fiber.Ctx) error {
-	user := c.Locals("user").(models.UserResponse)
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"user": user}})
+	user := c.Locals("user").(*models.User)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"user": models.FilterUserRecord(user)}})
 }

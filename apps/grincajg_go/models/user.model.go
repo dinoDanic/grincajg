@@ -1,16 +1,19 @@
 package models
 
 import (
+
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	Name     string  `gorm:"type:varchar(100);not null"`
-	Email    string  `gorm:"type:varchar(100);uniqueIndex;not null"`
-	Password string  `gorm:"type:varchar(100);not null"`
-	Role     *string `gorm:"type:varchar(50);default:'user';not null"`
-	Verified *bool   `gorm:"not null;default:false"`
+	Name         string  `gorm:"type:varchar(100);not null"`
+	Email        string  `gorm:"type:varchar(100);uniqueIndex;not null"`
+	Password     string  `gorm:"type:varchar(100);not null"`
+	Role         *string `gorm:"type:varchar(50);default:'user';not null"`
+	Verified     *bool   `gorm:"not null;default:false"`
+	Organization *Organization
 }
 
 type SignUpInput struct {
@@ -39,4 +42,9 @@ func FilterUserRecord(user *User) UserResponse {
 		Email: user.Email,
 		Role:  *user.Role,
 	}
+}
+
+func GetContextUser(c *fiber.Ctx) *User {
+	user := c.Locals("user").(*User)
+	return user 
 }

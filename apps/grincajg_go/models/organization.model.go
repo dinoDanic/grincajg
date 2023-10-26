@@ -16,23 +16,23 @@ type CreateOrganizationInput struct {
 	Name string `json:"name"  validate:"required"`
 }
 
-type OrganizationResponse struct {
+type OrganizationRecord struct {
 	Name string `json:"name,omitempty"`
 }
 
-func FilterOrganizationResponse(organization Organization) OrganizationResponse {
-	return OrganizationResponse{
+func FilterOrganizationRecord(organization Organization) OrganizationRecord {
+	return OrganizationRecord{
 		Name: organization.Name,
 	}
 }
 
-func (organization *Organization) SaveOrganization() (*OrganizationResponse, error) {
+func (organization *Organization) SaveOrganization() (*OrganizationRecord, error) {
 	err := database.DB.Create(&organization).Error
 	if err != nil {
-		return &OrganizationResponse{}, err
+		return &OrganizationRecord{}, err
 	}
 
-	filterResponse := FilterOrganizationResponse(*organization)
+	filterResponse := FilterOrganizationRecord(*organization)
 
 	return &filterResponse, nil
 
