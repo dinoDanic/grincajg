@@ -10,6 +10,7 @@ type Organization struct {
 	Name   string `gorm:"type:varchar(100);not null"`
 	UserID uint   `gorm:"unique;foreignKey:User"`
 	User   User
+	Store  []Store
 }
 
 type CreateOrganizationInput struct {

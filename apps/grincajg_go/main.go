@@ -5,7 +5,6 @@ import (
 	"grincajg/controllers"
 	"grincajg/database"
 	"grincajg/middleware"
-	// "grincajg/models"
 	"log"
 
 	_ "grincajg/docs"
@@ -42,8 +41,7 @@ func loadEnv() {
 
 func loadDatabase() {
 	database.Connect()
-	// database.DB.AutoMigrate(&models.User{})
-	// database.DB.AutoMigrate(&models.Organization{})
+	// database.DB.AutoMigrate(&models.User{}, &models.Organization{}, &models.Store{})
 }
 
 func serveApplication() {
@@ -69,6 +67,10 @@ func serveApplication() {
 	micro.Route("/organization", func(router fiber.Router) {
 		router.Post("/", middleware.DeserializeUser, controllers.CreateOrganization)
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
+	})
+
+	micro.Route("/store", func(router fiber.Router) {
+		router.Post("/", middleware.DeserializeUser, controllers.CreateStore)
 	})
 
 	micro.Route("/users", func(router fiber.Router) {
