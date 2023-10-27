@@ -33,7 +33,7 @@ func main() {
 }
 
 func loadEnv() {
-	err := godotenv.Load()
+	err := godotenv.Load(".env.local")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
@@ -41,7 +41,11 @@ func loadEnv() {
 
 func loadDatabase() {
 	database.Connect()
-	// database.DB.AutoMigrate(&models.User{}, &models.Organization{}, &models.Store{})
+	// database.DB.AutoMigrate(&models.User{})
+	// database.DB.AutoMigrate(&models.Organization{})
+	// database.DB.AutoMigrate(&models.Store{})
+	// database.DB.AutoMigrate(&models.Category{})
+	// database.DB.AutoMigrate(&models.Product{})
 }
 
 func serveApplication() {
@@ -51,6 +55,7 @@ func serveApplication() {
 	app.Mount("/api", micro)
 
 	app.Use(logger.New())
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
 		AllowHeaders:     "Origin, Content-Type, Accept",
@@ -69,6 +74,11 @@ func serveApplication() {
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
 		router.Post("/create-store", middleware.DeserializeUser, controllers.CreateStore)
 		router.Get("/stores", middleware.DeserializeUser, controllers.GetOrganizationStores)
+	})
+
+	micro.Route("/organization/store", func(router fiber.Router) {
+		router.Post("/", middleware.DeserializeUser, controllers.CreateStore)
+		router.Get("/", middleware.DeserializeUser, controllers.GetOrganizationStores)
 	})
 
 	micro.Route("/users", func(router fiber.Router) {

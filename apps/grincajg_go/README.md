@@ -1,4 +1,10 @@
-deploy docker
+## migrations
+
+```
+migrate -path database/migration/ -database "postgresql://postgres:postgres@localhost:5432/grincajg_go_dev?sslmode=disable" -verbose up
+```
+
+## deploy docker
 
 1. This command creates a new builder instance and sets it as the current builder.
 

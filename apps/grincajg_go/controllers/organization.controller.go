@@ -4,6 +4,7 @@ import (
 	"grincajg/database"
 	"grincajg/models"
 	"grincajg/response"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -24,14 +25,27 @@ func CreateOrganization(c *fiber.Ctx) error {
 	user := models.GetContextUser(c)
 
 	newOrganization := models.Organization{
-		UserID: user.ID,
-		Name:   input.Name,
+		AdminUserID: user.ID,
+		Name:        input.Name,
 	}
 
 	orgEntry, error := newOrganization.SaveOrganization()
 
 	if error != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": error.Error()})
+	}
+
+	log.Println("orgEntryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+	log.Println(orgEntry)
+
+	user.OrganizationID = &orgEntry.ID
+
+	result := database.DB.Save(&user)
+	log.Println("resutlttttttttttttttttttttttttt")
+	log.Println(result)
+
+	if result.Error != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": result.Error.Error()})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"organization": orgEntry}})

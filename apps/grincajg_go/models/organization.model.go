@@ -7,10 +7,12 @@ import (
 
 type Organization struct {
 	gorm.Model
-	Name   string `gorm:"type:varchar(100);not null"`
-	UserID uint   `gorm:"unique;foreignKey:User"`
-	User   User
-	Stores  []Store
+	Name string `gorm:"type:varchar(100);not null"`
+
+	AdminUserID uint `gorm:"unique;index"`
+	AdminUser   User `gorm:"foreignKey:AdminUserID"`
+	Users       []User
+	Stores      []Store
 }
 
 type CreateOrganizationInput struct {
@@ -18,12 +20,14 @@ type CreateOrganizationInput struct {
 }
 
 type OrganizationRecord struct {
+	ID   uint   `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
 func FilterOrganizationRecord(organization Organization) OrganizationRecord {
 	return OrganizationRecord{
 		Name: organization.Name,
+    ID: organization.ID,
 	}
 }
 
