@@ -1,16 +1,19 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"grincajg/database"
+	"time"
 )
 
 type Store struct {
-	gorm.Model
+	ID             uint   `gorm:"primarykey"`
 	Name           string `gorm:"type:varchar(100);not null;unique"`
 	Address        string `gorm:"type:varchar(100);not null"`
 	OrganizationID uint   `gorm:"foreignKey:Organization"`
 	Organization   Organization
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type CreateStoreInput struct {

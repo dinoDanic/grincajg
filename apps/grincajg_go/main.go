@@ -72,8 +72,6 @@ func serveApplication() {
 	micro.Route("/organization", func(router fiber.Router) {
 		router.Post("/", middleware.DeserializeUser, controllers.CreateOrganization)
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
-		router.Post("/create-store", middleware.DeserializeUser, controllers.CreateStore)
-		router.Get("/stores", middleware.DeserializeUser, controllers.GetOrganizationStores)
 	})
 
 	micro.Route("/organization/store", func(router fiber.Router) {
