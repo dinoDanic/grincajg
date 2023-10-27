@@ -9,21 +9,86 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "email": "fiber@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
+        "/organization": {
+            "get": {
+                "description": "This endpoint returns the details of the organization the current logged in user belongs to.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Get the current user's organization",
+                "responses": {
+                    "200": {
+                        "description": "Organization data successfully returned",
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: User not logged in",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "User does not belong to any organization",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "This endpoint creates a new organization and assigns the current logged in user as the admin of the organization.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Create a new organization",
+                "parameters": [
+                    {
+                        "description": "Organization creation input",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateOrganizationInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Organization successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create organization",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: User not logged in",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login": {
             "post": {
                 "description": "This endpoint allows a user to log in by providing necessary information.",
                 "consumes": [
@@ -58,20 +123,20 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request: Validation error",
                         "schema": {
-                            "$ref": "#/definitions/models.ValidateErrorResponse"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "502": {
                         "description": "Bad Gateway: Something bad happened",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
             }
         },
-        "/auth/logout": {
-            "post": {
+        "/users/logout": {
+            "get": {
                 "description": "This endpoint allows a user to log out.",
                 "produces": [
                     "application/json"
@@ -91,7 +156,33 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/register": {
+        "/users/me": {
+            "get": {
+                "description": "This endpoint returns the details of the current logged in user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the current user",
+                "responses": {
+                    "200": {
+                        "description": "Current user data successfully returned",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: User not logged in",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/register": {
             "post": {
                 "description": "This endpoint allows a user to sign up by providing necessary information.",
                 "consumes": [
@@ -131,40 +222,13 @@ const docTemplate = `{
                     "409": {
                         "description": "Conflict: User with that email already exists",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "$ref": "#/definitions/models.Error"
                         }
                     },
                     "502": {
                         "description": "Bad Gateway: Something bad happened",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/me": {
-            "get": {
-                "description": "This endpoint returns the details of the current logged in user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get the current user",
-                "responses": {
-                    "200": {
-                        "description": "Current user data successfully returned",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized: User not logged in",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "$ref": "#/definitions/models.Error"
                         }
                     }
                 }
@@ -172,7 +236,18 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.ErrorResponse": {
+        "models.CreateOrganizationInput": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Error": {
             "type": "object",
             "properties": {
                 "message": {
@@ -180,6 +255,41 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "models.Organization": {
+            "type": "object",
+            "properties": {
+                "adminUser": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "adminUserID": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "stores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Store"
+                    }
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.User"
+                    }
                 }
             }
         },
@@ -221,25 +331,80 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserResponse": {
+        "models.Store": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "address": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organization": {
+                    "$ref": "#/definitions/models.Organization"
+                },
+                "organizationID": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
+                },
+                "organization": {
+                    "$ref": "#/definitions/models.Organization"
+                },
+                "organizationID": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "superAdmin": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "verified": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.UserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "role": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 }
             }
@@ -264,11 +429,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "Grincajg API 2",
-	Description:      "This is a sample swagger for Fiber",
+	Title:            "Grincajg API",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

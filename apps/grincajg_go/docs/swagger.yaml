@@ -1,11 +1,41 @@
 basePath: /api
 definitions:
-  models.ErrorResponse:
+  models.CreateOrganizationInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.Error:
     properties:
       message:
         type: string
       status:
         type: string
+    type: object
+  models.Organization:
+    properties:
+      adminUser:
+        $ref: '#/definitions/models.User'
+      adminUserID:
+        type: integer
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      stores:
+        items:
+          $ref: '#/definitions/models.Store'
+        type: array
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
     type: object
   models.SignInInput:
     properties:
@@ -33,19 +63,55 @@ definitions:
     - password
     - passwordConfirm
     type: object
-  models.UserResponse:
+  models.Store:
     properties:
-      created_at:
+      address:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      organization:
+        $ref: '#/definitions/models.Organization'
+      organizationID:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
         type: string
       email:
         type: string
       id:
+        type: integer
+      name:
         type: string
+      organization:
+        $ref: '#/definitions/models.Organization'
+      organizationID:
+        type: integer
+      password:
+        type: string
+      superAdmin:
+        type: boolean
+      updatedAt:
+        type: string
+      verified:
+        type: boolean
+    type: object
+  models.UserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
       name:
         type: string
       role:
-        type: string
-      updated_at:
         type: string
     type: object
   models.ValidateErrorResponse:
@@ -57,20 +123,62 @@ definitions:
       value:
         type: string
     type: object
-host: localhost:8080
 info:
-  contact:
-    email: fiber@swagger.io
-    name: API Support
-  description: This is a sample swagger for Fiber
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Grincajg API 2
+  contact: {}
+  title: Grincajg API
   version: "1.0"
 paths:
-  /auth/login:
+  /organization:
+    get:
+      description: This endpoint returns the details of the organization the current
+        logged in user belongs to.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Organization data successfully returned
+          schema:
+            $ref: '#/definitions/models.Organization'
+        "401":
+          description: 'Unauthorized: User not logged in'
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: User does not belong to any organization
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Get the current user's organization
+      tags:
+      - Organizations
+    post:
+      description: This endpoint creates a new organization and assigns the current
+        logged in user as the admin of the organization.
+      parameters:
+      - description: Organization creation input
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrganizationInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Organization successfully created
+          schema:
+            $ref: '#/definitions/models.Organization'
+        "400":
+          description: Failed to create organization
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: 'Unauthorized: User not logged in'
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Create a new organization
+      tags:
+      - Organizations
+  /users/login:
     post:
       consumes:
       - application/json
@@ -93,16 +201,16 @@ paths:
         "400":
           description: 'Bad Request: Validation error'
           schema:
-            $ref: '#/definitions/models.ValidateErrorResponse'
+            $ref: '#/definitions/models.Error'
         "502":
           description: 'Bad Gateway: Something bad happened'
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            $ref: '#/definitions/models.Error'
       summary: Log in a user
       tags:
       - Users
-  /auth/logout:
-    post:
+  /users/logout:
+    get:
       description: This endpoint allows a user to log out.
       produces:
       - application/json
@@ -115,7 +223,24 @@ paths:
       summary: Log out a user
       tags:
       - Users
-  /auth/register:
+  /users/me:
+    get:
+      description: This endpoint returns the details of the current logged in user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Current user data successfully returned
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: 'Unauthorized: User not logged in'
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Get the current user
+      tags:
+      - Users
+  /users/register:
     post:
       consumes:
       - application/json
@@ -141,30 +266,12 @@ paths:
         "409":
           description: 'Conflict: User with that email already exists'
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            $ref: '#/definitions/models.Error'
         "502":
           description: 'Bad Gateway: Something bad happened'
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            $ref: '#/definitions/models.Error'
       summary: Sign up a new user
-      tags:
-      - Users
-  /users/me:
-    get:
-      description: This endpoint returns the details of the current logged in user.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Current user data successfully returned
-          schema:
-            additionalProperties: true
-            type: object
-        "401":
-          description: 'Unauthorized: User not logged in'
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-      summary: Get the current user
       tags:
       - Users
 swagger: "2.0"

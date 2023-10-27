@@ -13,6 +13,13 @@ func ErrorResponse(c *fiber.Ctx, message string) error {
 	})
 }
 
+func ErrorResponseNotFound(c *fiber.Ctx, message string) error {
+	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+		"status":  "fail",
+		"message": message,
+	})
+}
+
 func SuccessResponse(c *fiber.Ctx, data interface{}) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status": "success",
@@ -20,7 +27,7 @@ func SuccessResponse(c *fiber.Ctx, data interface{}) error {
 	})
 }
 
-func ValidationErrorResponse(c *fiber.Ctx, errors []*models.ErrorResponse) error {
+func ValidationErrorResponse(c *fiber.Ctx, errors []*models.ValidateError) error {
 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 		"status": "fail",
 		"errors": errors,

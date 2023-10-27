@@ -22,9 +22,9 @@ import (
 // @Param input body models.SignUpInput true "User signup details"
 // @Success 201 {object} models.UserResponse "User successfully created"
 // @Failure 400 {object} models.ValidateErrorResponse "bas request"
-// @Failure 409 {object} models.ErrorResponse "Conflict: User with that email already exists"
-// @Failure 502 {object} models.ErrorResponse "Bad Gateway: Something bad happened"
-// @Router /auth/register [post]
+// @Failure 409 {object} models.Error "Conflict: User with that email already exists"
+// @Failure 502 {object} models.Error "Bad Gateway: Something bad happened"
+// @Router /users/register [post]
 func SignUpUser(c *fiber.Ctx) error {
 	var input *models.SignUpInput
 
@@ -73,9 +73,9 @@ func SignUpUser(c *fiber.Ctx) error {
 // @Produce json
 // @Param input body models.SignInInput true "User login details"
 // @Success 200 {object} map[string]interface{} "JWT token successfully returned"
-// @Failure 400 {object} models.ValidateErrorResponse "Bad Request: Validation error"
-// @Failure 502 {object} models.ErrorResponse "Bad Gateway: Something bad happened"
-// @Router /auth/login [post]
+// @Failure 400 {object} models.Error "Bad Request: Validation error"
+// @Failure 502 {object} models.Error "Bad Gateway: Something bad happened"
+// @Router /users/login [post]
 func SignInUser(c *fiber.Ctx) error {
 	var input *models.SignInInput
 
@@ -137,7 +137,7 @@ func SignInUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Produce json
 // @Success 200 {object} map[string]interface{} "User successfully logged out"
-// @Router /auth/logout [get]
+// @Router /users/logout [get]
 func LogoutUser(c *fiber.Ctx) error {
 	expired := time.Now().Add(-time.Hour * 24)
 	c.Cookie(&fiber.Cookie{
@@ -154,7 +154,7 @@ func LogoutUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Produce json
 // @Success 200 {object} models.User "Current user data successfully returned"
-// @Failure 401 {object} models.ErrorResponse "Unauthorized: User not logged in"
+// @Failure 401 {object} models.Error "Unauthorized: User not logged in"
 // @Router /users/me [get]
 func GetMe(c *fiber.Ctx) error {
 	user := c.Locals("user").(*models.User)

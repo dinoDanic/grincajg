@@ -1,18 +1,21 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"grincajg/database"
+	"time"
 )
 
 type Organization struct {
-	gorm.Model
+	ID   uint   `gorm:"primarykey"`
 	Name string `gorm:"type:varchar(100);not null"`
 
 	AdminUserID uint `gorm:"unique;index"`
 	AdminUser   User `gorm:"foreignKey:AdminUserID"`
 	Users       []User
 	Stores      []Store
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type CreateOrganizationInput struct {
@@ -27,7 +30,7 @@ type OrganizationRecord struct {
 func FilterOrganizationRecord(organization Organization) OrganizationRecord {
 	return OrganizationRecord{
 		Name: organization.Name,
-    ID: organization.ID,
+		ID:   organization.ID,
 	}
 }
 

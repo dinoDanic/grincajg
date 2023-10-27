@@ -1,12 +1,13 @@
 package models
 
 import (
+	"time"
+
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 )
 
 type User struct {
-	gorm.Model
+	ID         uint   `gorm:"primarykey"`
 	Name       string `gorm:"type:varchar(100);not null"`
 	Email      string `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password   string `gorm:"type:varchar(100);not null"`
@@ -15,6 +16,9 @@ type User struct {
 
 	OrganizationID *uint `gorm:"index"`
 	Organization   *Organization
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type SignUpInput struct {

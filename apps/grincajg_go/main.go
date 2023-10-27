@@ -18,13 +18,6 @@ import (
 
 // @title Grincajg API
 // @version 1.0
-// @description This is a sample swagger for Fiber
-// @termsOfService http://swagger.io/terms/
-// @contact.name API Support
-// @contact.email fiber@swagger.io
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080
 // @BasePath /api
 func main() {
 	loadEnv()
@@ -41,11 +34,6 @@ func loadEnv() {
 
 func loadDatabase() {
 	database.Connect()
-	// database.DB.AutoMigrate(&models.User{})
-	// database.DB.AutoMigrate(&models.Organization{})
-	// database.DB.AutoMigrate(&models.Store{})
-	// database.DB.AutoMigrate(&models.Category{})
-	// database.DB.AutoMigrate(&models.Product{})
 }
 
 func serveApplication() {
@@ -63,23 +51,20 @@ func serveApplication() {
 		AllowCredentials: true,
 	}))
 
-	micro.Route("/auth", func(router fiber.Router) {
-		router.Post("/register", controllers.SignUpUser)
-		router.Post("/login", controllers.SignInUser)
-		router.Get("/logout", middleware.DeserializeUser, controllers.LogoutUser)
-	})
-
-	micro.Route("/organization", func(router fiber.Router) {
+	micro.Route("/organizations", func(router fiber.Router) {
 		router.Post("/", middleware.DeserializeUser, controllers.CreateOrganization)
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganization)
 	})
 
-	micro.Route("/organization/store", func(router fiber.Router) {
+	micro.Route("/stores", func(router fiber.Router) {
 		router.Post("/", middleware.DeserializeUser, controllers.CreateStore)
 		router.Get("/", middleware.DeserializeUser, controllers.GetOrganizationStores)
 	})
 
 	micro.Route("/users", func(router fiber.Router) {
+		router.Post("/register", controllers.SignUpUser)
+		router.Post("/login", controllers.SignInUser)
+		router.Get("/logout", middleware.DeserializeUser, controllers.LogoutUser)
 		router.Get("/me", middleware.DeserializeUser, controllers.GetMe)
 	})
 
