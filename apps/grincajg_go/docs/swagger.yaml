@@ -40,8 +40,10 @@ definitions:
   models.SignInInput:
     properties:
       email:
+        example: account1@mail.com
         type: string
       password:
+        example: "1"
         type: string
     required:
     - email
@@ -114,13 +116,22 @@ definitions:
       role:
         type: string
     type: object
-  models.ValidateErrorResponse:
+  models.ValidateError:
     properties:
       field:
         type: string
       tag:
         type: string
       value:
+        type: string
+    type: object
+  models.ValidateErrorResponse:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/models.ValidateError'
+        type: array
+      status:
         type: string
     type: object
 info:

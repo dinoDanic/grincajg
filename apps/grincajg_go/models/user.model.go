@@ -29,8 +29,8 @@ type SignUpInput struct {
 }
 
 type SignInInput struct {
-	Email    string `json:"email"  validate:"required"`
-	Password string `json:"password"  validate:"required"`
+	Email    string `json:"email" validate:"required" example:"account1@mail.com"`
+	Password string `json:"password" validate:"required" example:"1"`
 }
 
 type UserResponse struct {

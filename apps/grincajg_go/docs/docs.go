@@ -301,10 +301,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "account1@mail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1"
                 }
             }
         },
@@ -409,7 +411,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ValidateErrorResponse": {
+        "models.ValidateError": {
             "type": "object",
             "properties": {
                 "field": {
@@ -419,6 +421,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ValidateErrorResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ValidateError"
+                    }
+                },
+                "status": {
                     "type": "string"
                 }
             }
