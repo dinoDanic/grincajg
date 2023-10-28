@@ -45,7 +45,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/organizations": {
             "post": {
                 "description": "This endpoint creates a new organization and assigns the current logged in user as the admin of the organization.",
                 "produces": [
@@ -70,13 +72,13 @@ const docTemplate = `{
                     "201": {
                         "description": "Organization successfully created",
                         "schema": {
-                            "$ref": "#/definitions/models.Organization"
+                            "$ref": "#/definitions/models.OrganizationRecord"
                         }
                     },
                     "400": {
-                        "description": "Failed to create organization",
+                        "description": "Bas request",
                         "schema": {
-                            "$ref": "#/definitions/models.Error"
+                            "$ref": "#/definitions/models.ValidateErrorResponse"
                         }
                     },
                     "401": {
@@ -242,7 +244,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "organization example 1"
                 }
             }
         },
@@ -289,6 +292,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.User"
                     }
+                }
+            }
+        },
+        "models.OrganizationRecord": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

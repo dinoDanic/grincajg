@@ -3,6 +3,7 @@ definitions:
   models.CreateOrganizationInput:
     properties:
       name:
+        example: organization example 1
         type: string
     required:
     - name
@@ -36,6 +37,13 @@ definitions:
         items:
           $ref: '#/definitions/models.User'
         type: array
+    type: object
+  models.OrganizationRecord:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
     type: object
   models.SignInInput:
     properties:
@@ -175,6 +183,7 @@ paths:
       summary: Get the current user's organization
       tags:
       - Organizations
+  /organizations:
     post:
       description: This endpoint creates a new organization and assigns the current
         logged in user as the admin of the organization.
@@ -191,11 +200,11 @@ paths:
         "201":
           description: Organization successfully created
           schema:
-            $ref: '#/definitions/models.Organization'
+            $ref: '#/definitions/models.OrganizationRecord'
         "400":
-          description: Failed to create organization
+          description: Bas request
           schema:
-            $ref: '#/definitions/models.Error'
+            $ref: '#/definitions/models.ValidateErrorResponse'
         "401":
           description: 'Unauthorized: User not logged in'
           schema:

@@ -14,10 +14,10 @@ import (
 // @Tags Organizations
 // @Produce json
 // @Param body body models.CreateOrganizationInput true "Organization creation input"
-// @Success 201 {object} models.Organization "Organization successfully created"
-// @Failure 400 {object} models.Error "Failed to create organization"
+// @Success 201 {object} models.OrganizationRecord "Organization successfully created"
 // @Failure 401 {object} models.Error "Unauthorized: User not logged in"
-// @Router /organization [post]
+// @Failure 400 {object} models.ValidateErrorResponse "Bas request"
+// @Router /organizations [post]
 func CreateOrganization(c *fiber.Ctx) error {
 	var input *models.CreateOrganizationInput
 

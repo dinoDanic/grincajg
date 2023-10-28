@@ -19,7 +19,7 @@ type Organization struct {
 }
 
 type CreateOrganizationInput struct {
-	Name string `json:"name"  validate:"required"`
+  Name string `json:"name" validate:"required" example:"organization example 1"`
 }
 
 type OrganizationRecord struct {
