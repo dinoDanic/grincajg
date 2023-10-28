@@ -8,7 +8,7 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
-	"grincajg/controllers"
+	"grincajg/graph/controllers"
 	"grincajg/graph/model"
 	"math/big"
 )

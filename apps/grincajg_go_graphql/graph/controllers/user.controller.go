@@ -81,15 +81,5 @@ func LoginUser(ctx context.Context, input model.LoginUserInput) (*model.Session,
 		return &model.Session{}, gqlerror.Errorf("generating JWT Token failed")
 	}
 
-	// c.Cookie(&fiber.Cookie{
-	// 	Name:     "token",
-	// 	Value:    tokenString,
-	// 	Path:     "/",
-	// 	MaxAge:   60 * 60,
-	// 	Secure:   false,
-	// 	HTTPOnly: true,
-	// 	Domain:   "localhost",
-	// })
-
 	return &model.Session{Token: tokenString}, nil
 }
