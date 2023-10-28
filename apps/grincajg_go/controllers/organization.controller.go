@@ -22,13 +22,13 @@ func CreateOrganization(c *fiber.Ctx) error {
 	var input *models.CreateOrganizationInput
 
 	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return response.ErrorResponse(c, err.Error())
 	}
 
 	err := models.ValidateStruct(input)
 
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "errors": err})
+		return response.ErrorResponse(c, err.Error())
 	}
 
 	user := models.GetContextUser(c)
@@ -41,7 +41,7 @@ func CreateOrganization(c *fiber.Ctx) error {
 	orgEntry, error := newOrganization.SaveOrganization()
 
 	if error != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": error.Error()})
+		return response.ErrorResponse(c, error.Error())
 	}
 
 	user.OrganizationID = &orgEntry.ID
@@ -49,10 +49,10 @@ func CreateOrganization(c *fiber.Ctx) error {
 	result := database.DB.Save(&user)
 
 	if result.Error != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": result.Error.Error()})
+		return response.ErrorResponse(c, result.Error.Error())
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"organization": orgEntry}})
+  return response.SuccessResponse(c, orgEntry)
 
 }
 

@@ -18,7 +18,7 @@ func CreateStore(c *fiber.Ctx) error {
 	err := models.ValidateStruct(input)
 
 	if err != nil {
-		return response.ValidationErrorResponse(c, err)
+		return response.ErrorResponse(c, err.Error())
 	}
 
 	user := models.GetContextUser(c)
