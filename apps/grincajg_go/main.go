@@ -19,6 +19,7 @@ import (
 // @title Grincajg API
 // @version 1.0
 // @BasePath /api
+// @host localhost:8080
 func main() {
 	loadEnv()
 	loadDatabase()

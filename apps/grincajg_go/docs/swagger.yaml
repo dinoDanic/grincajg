@@ -43,21 +43,34 @@ definitions:
         example: account1@mail.com
         type: string
       password:
-        example: "1"
+        example: Ruda,actv1!
         type: string
     required:
     - email
     - password
     type: object
+  models.SignInResponse:
+    properties:
+      status:
+        example: success
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1N...
+        type: string
+    type: object
   models.SignUpInput:
     properties:
       email:
+        example: account1@mail.com
         type: string
       name:
+        example: account1
         type: string
       password:
+        example: Ruda,actv1!
         type: string
       passwordConfirm:
+        example: Ruda,actv1!
         type: string
     required:
     - email
@@ -134,6 +147,7 @@ definitions:
       status:
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
   title: Grincajg API
@@ -207,8 +221,7 @@ paths:
         "200":
           description: JWT token successfully returned
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/models.SignInResponse'
         "400":
           description: 'Bad Request: Validation error'
           schema:

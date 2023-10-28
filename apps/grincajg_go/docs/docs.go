@@ -116,8 +116,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JWT token successfully returned",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/models.SignInResponse"
                         }
                     },
                     "400": {
@@ -306,7 +305,20 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string",
-                    "example": "1"
+                    "example": "Ruda,actv1!"
+                }
+            }
+        },
+        "models.SignInResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1N..."
                 }
             }
         },
@@ -320,16 +332,20 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "account1@mail.com"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "account1"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ruda,actv1!"
                 },
                 "passwordConfirm": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ruda,actv1!"
                 }
             }
         },
@@ -445,7 +461,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
+	Host:             "localhost:8080",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Grincajg API",

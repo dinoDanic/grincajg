@@ -22,15 +22,21 @@ type User struct {
 }
 
 type SignUpInput struct {
-	Name            string `json:"name" validate:"required"`
-	Email           string `json:"email" validate:"required,email"`
-	Password        string `json:"password" validate:"required"`
-	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
+  Name            string `json:"name" validate:"required" example:"account1"`
+  Email           string `json:"email" validate:"required,email" example:"account1@mail.com"`
+  Password        string `json:"password" validate:"required" example:"Ruda,actv1!"`
+	PasswordConfirm string `json:"passwordConfirm" validate:"required" example:"Ruda,actv1!"`
 }
 
 type SignInInput struct {
 	Email    string `json:"email" validate:"required" example:"account1@mail.com"`
-	Password string `json:"password" validate:"required" example:"1"`
+	Password string `json:"password" validate:"required" example:"Ruda,actv1!"`
+}
+
+
+type SignInResponse struct {
+  Status string `json:"status" example:"success"`
+  Token  string `json:"token,omitempty" example:"eyJhbGciOiJIUzI1N..."`
 }
 
 type UserResponse struct {

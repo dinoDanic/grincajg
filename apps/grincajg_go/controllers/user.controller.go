@@ -65,6 +65,7 @@ func SignUpUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"status": "success", "data": fiber.Map{"user": models.FilterUserRecord(&newUser)}})
 }
 
+
 // SignInUser logs in a user.
 // @Summary Log in a user
 // @Description This endpoint allows a user to log in by providing necessary information.
@@ -72,7 +73,7 @@ func SignUpUser(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param input body models.SignInInput true "User login details"
-// @Success 200 {object} map[string]interface{} "JWT token successfully returned"
+// @Success 200 {object} models.SignInResponse "JWT token successfully returned"
 // @Failure 400 {object} models.Error "Bad Request: Validation error"
 // @Failure 502 {object} models.Error "Bad Gateway: Something bad happened"
 // @Router /users/login [post]

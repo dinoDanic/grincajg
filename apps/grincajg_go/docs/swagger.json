@@ -5,6 +5,7 @@
         "contact": {},
         "version": "1.0"
     },
+    "host": "localhost:8080",
     "basePath": "/api",
     "paths": {
         "/organization": {
@@ -108,8 +109,7 @@
                     "200": {
                         "description": "JWT token successfully returned",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/models.SignInResponse"
                         }
                     },
                     "400": {
@@ -298,7 +298,20 @@
                 },
                 "password": {
                     "type": "string",
-                    "example": "1"
+                    "example": "Ruda,actv1!"
+                }
+            }
+        },
+        "models.SignInResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1N..."
                 }
             }
         },
@@ -312,16 +325,20 @@
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "account1@mail.com"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "account1"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ruda,actv1!"
                 },
                 "passwordConfirm": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ruda,actv1!"
                 }
             }
         },
