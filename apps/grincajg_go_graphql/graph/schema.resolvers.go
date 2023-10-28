@@ -8,6 +8,7 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
+	"grincajg/controllers"
 	"grincajg/graph/model"
 	"math/big"
 )
@@ -22,6 +23,16 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	}
 	r.todos = append(r.todos, todo)
 	return todo, nil
+}
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
+	return controllers.CreateUser(ctx, input)
+}
+
+// LoginUser is the resolver for the loginUser field.
+func (r *mutationResolver) LoginUser(ctx context.Context, input model.LoginUserInput) (*model.Session, error) {
+	return controllers.LoginUser(ctx, input)
 }
 
 // Todos is the resolver for the todos field.
