@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	ID         string `gorm:"primarykey"`
+	ID         int    `gorm:"primarykey"`
 	Name       string `gorm:"type:varchar(100);not null"`
 	Email      string `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password   string `gorm:"type:varchar(100);not null"`
@@ -34,19 +34,4 @@ type SignInInput struct {
 type SignInResponse struct {
 	Status string `json:"status" example:"success"`
 	Token  string `json:"token,omitempty" example:"eyJhbGciOiJIUzI1N..."`
-}
-
-type UserResponse struct {
-	ID    string `json:"id,omitempty"`
-	Name  string `json:"name,omitempty"`
-	Email string `json:"email,omitempty"`
-	Role  string `json:"role,omitempty"`
-}
-
-func FilterUserRecord(user *User) UserResponse {
-	return UserResponse{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
-	}
 }

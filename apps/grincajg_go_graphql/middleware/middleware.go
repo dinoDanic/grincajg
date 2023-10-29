@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
 var userCtxKey = &contextKey{"user"}
@@ -70,4 +71,12 @@ func Middleware() func(http.Handler) http.Handler {
 func ForContext(ctx context.Context) *model.User {
 	raw, _ := ctx.Value(userCtxKey).(*model.User)
 	return raw
+}
+
+func GetUser(ctx context.Context) (*model.User, error) {
+	user := ForContext(ctx)
+	if user == nil {
+		return &model.User{}, gqlerror.Errorf("Not authorized")
+	}
+	return user, nil
 }
