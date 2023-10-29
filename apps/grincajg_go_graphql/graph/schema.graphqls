@@ -14,13 +14,8 @@ type User {
   name: String!
 }
 
-type Session {
-  token: String!
-}
-
-input LoginUserInput {
-  email: String!
-  password: String!
+type Query {
+  todos: [Todo!]!
 }
 
 input NewTodo {
@@ -28,20 +23,6 @@ input NewTodo {
   userId: String!
 }
 
-input CreateUserInput {
-  email: String!
-  name: String!
-  pasword: String!
-  posswordConfirm: String!
-}
-
-type Query {
-  todos: [Todo!]!
-  me: User!
-}
-
 type Mutation {
   createTodo(input: NewTodo!): Todo!
-  createUser(input: CreateUserInput!): User!
-  loginUser(input: LoginUserInput!): Session!
 }
