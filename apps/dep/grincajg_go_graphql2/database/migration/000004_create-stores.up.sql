@@ -1,0 +1,11 @@
+CREATE TABLE stores (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  address VARCHAR(100) NOT NULL,
+  organization_id INT NOT NULL,
+
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (organization_id) REFERENCES organizations (id)
+);

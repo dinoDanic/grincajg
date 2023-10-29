@@ -4,7 +4,7 @@ import (
 	"grincajg/database"
 	"grincajg/env"
 	"grincajg/graph"
-	"grincajg/middleware"
+	"grincajg/graph/middleware"
 	"log"
 	"net/http"
 
@@ -27,12 +27,24 @@ func main() {
 	router.Handle("/", playground.Handler("Grincajg", "/query"))
 	router.Handle("/query", srv)
 
-	err := http.ListenAndServe(":8090", router)
+	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		panic(err)
 	}
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", "8080")
-	log.Fatal(http.ListenAndServe(":8090", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 
+	// port := os.Getenv("PORT")
+	// if port == "" {
+	// 	port = defaultPort
+	// }
+	//
+	// srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	//
+	// http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	// http.Handle("/query", srv)
+	//
+	// log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	// log.Fatal(http.ListenAndServe(":"+port, nil))
 }

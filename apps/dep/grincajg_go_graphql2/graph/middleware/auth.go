@@ -1,16 +1,10 @@
-package auth
+package middleware
 
 import (
 	"context"
-	"fmt"
-
-	// "grincajg/database"
-	"grincajg/database"
+	"grincajg/graph/jwt"
 	"grincajg/graph/model"
 	"net/http"
-	"os"
-
-	"github.com/golang-jwt/jwt/v5"
 )
 
 var userCtxKey = &contextKey{"user"}
@@ -20,55 +14,44 @@ type contextKey struct {
 }
 
 func Middleware() func(http.Handler) http.Handler {
-
-	JWT_SECRET := os.Getenv("JWT_SECRET")
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			header := r.Header.Get("Authorization")
 
+			// Allow unauthenticated users in
 			if header == "" {
 				next.ServeHTTP(w, r)
 				return
 			}
 
+			//validate jwt token
 			tokenStr := header
-
-			token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-					return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-				}
-				return []byte(JWT_SECRET), nil
-			})
+			userId, err := jwt.ParseToken(tokenStr)
 
 			if err != nil {
-				fmt.Println("Error parsing token:", err.Error())
+				http.Error(w, "Invalid token", http.StatusForbidden)
 				return
 			}
 
-			claims, ok := token.Claims.(jwt.MapClaims)
+			user, err := jwt.GetUserByUserId(userId)
 
-			if ok == false {
+			// create user and check if user exists in db
+			// user := users.User{Username: username}
+			// id, err := users.GetUserIdByUsername(username)
+
+			if err != nil {
 				next.ServeHTTP(w, r)
 				return
 			}
 
-			var user model.User
+			// user.ID = strconv.Itoa(id)
 
-			database.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
-
-			userIdStr := fmt.Sprintf("%d", user.ID)
-			claimsSubStr := fmt.Sprintf("%.0f", claims["sub"].(float64))
-
-			if userIdStr != claimsSubStr {
-				fmt.Println("Error parsing token:", "The user belonging to this token no longer exists")
-			}
-
+			// put it in context
 			ctx := context.WithValue(r.Context(), userCtxKey, &user)
 
 			// and call the next with our new context
 			r = r.WithContext(ctx)
 			next.ServeHTTP(w, r)
-
 		})
 	}
 }
