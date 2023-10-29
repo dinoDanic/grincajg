@@ -6,10 +6,10 @@ import (
 )
 
 type Store struct {
-	ID             uint   `gorm:"primarykey"`
+	ID             int   `gorm:"primarykey"`
 	Name           string `gorm:"type:varchar(100);not null;unique"`
 	Address        string `gorm:"type:varchar(100);not null"`
-	OrganizationID uint   `gorm:"foreignKey:Organization"`
+	OrganizationID int   `gorm:"foreignKey:Organization"`
 	Organization   Organization
 
 	CreatedAt time.Time
@@ -22,7 +22,7 @@ type CreateStoreInput struct {
 }
 
 type StoreRecord struct {
-	ID      uint   `json:"id,omitempty"`
+	ID      int   `json:"id,omitempty"`
 	Name    string `json:"name,omitempty"`
 	Address string `json:"address,omitempty"`
 }

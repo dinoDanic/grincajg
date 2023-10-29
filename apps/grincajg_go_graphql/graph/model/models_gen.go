@@ -14,11 +14,6 @@ type LoginUserInput struct {
 	Password string `json:"password"`
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-}
-
 type Session struct {
 	Token string `json:"token"`
 }

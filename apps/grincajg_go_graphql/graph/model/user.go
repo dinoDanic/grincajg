@@ -5,14 +5,14 @@ import (
 )
 
 type User struct {
-	ID         uint   `gorm:"primarykey"`
+	ID         string `gorm:"primarykey"`
 	Name       string `gorm:"type:varchar(100);not null"`
 	Email      string `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password   string `gorm:"type:varchar(100);not null"`
 	Verified   *bool  `gorm:"not null;default:false"`
 	SuperAdmin *bool  `gorm:"not null;default:false"`
 
-	OrganizationID *uint `gorm:"index"`
+	OrganizationID *int `gorm:"index"`
 	Organization   *Organization
 
 	CreatedAt time.Time
@@ -37,7 +37,7 @@ type SignInResponse struct {
 }
 
 type UserResponse struct {
-	ID    uint   `json:"id,omitempty"`
+	ID    string `json:"id,omitempty"`
 	Name  string `json:"name,omitempty"`
 	Email string `json:"email,omitempty"`
 	Role  string `json:"role,omitempty"`

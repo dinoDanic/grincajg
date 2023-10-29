@@ -40,7 +40,7 @@ func Middleware() func(http.Handler) http.Handler {
 			})
 
 			if err != nil {
-				fmt.Println("Error parsing token:", err.Error())
+				http.Error(w, "Invalid token", http.StatusForbidden)
 				return
 			}
 
@@ -48,19 +48,13 @@ func Middleware() func(http.Handler) http.Handler {
 
 			if ok == false {
 				next.ServeHTTP(w, r)
+				http.Error(w, "Invalid claims", http.StatusForbidden)
 				return
 			}
 
 			var user model.User
 
 			database.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
-
-			userIdStr := fmt.Sprintf("%d", user.ID)
-			claimsSubStr := fmt.Sprintf("%.0f", claims["sub"].(float64))
-
-			if userIdStr != claimsSubStr {
-				fmt.Println("Error parsing token:", "The user belonging to this token no longer exists")
-			}
 
 			ctx := context.WithValue(r.Context(), userCtxKey, &user)
 

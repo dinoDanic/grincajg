@@ -5,9 +5,9 @@ import (
 )
 
 type Category struct {
-	ID         uint   `gorm:"primarykey"`
+	ID         int   `gorm:"primarykey"`
 	Name       string `gorm:"type:varchar(100);not null;unique"`
-	CategoryID uint
+	CategoryID int
 	Parent     *Category `gorm:"foreignKey:CategoryID"`
 
 	CreatedAt time.Time
