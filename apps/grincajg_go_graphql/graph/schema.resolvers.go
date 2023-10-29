@@ -30,11 +30,20 @@ func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
 	return controllers.Me(ctx)
 }
 
+// Organization is the resolver for the organization field.
+func (r *userResolver) Organization(ctx context.Context, obj *model.User) (*model.Organization, error) {
+	return controllers.PreloadOrganization(ctx)
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+// User returns UserResolver implementation.
+func (r *Resolver) User() UserResolver { return &userResolver{r} }
+
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type userResolver struct{ *Resolver }

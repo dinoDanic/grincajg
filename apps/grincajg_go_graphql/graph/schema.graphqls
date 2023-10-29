@@ -5,6 +5,7 @@
 type User {
   id: ID!
   name: String!
+  organization: Organization
 }
 
 type Organization {

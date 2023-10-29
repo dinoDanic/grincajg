@@ -36,3 +36,12 @@ func CreateOrganization(ctx context.Context, input model.CreateOrganizationInput
 
 	return orgEntry, nil
 }
+
+func PreloadOrganization(ctx context.Context) (*model.Organization, error) {
+	user, err := middleware.GetUser(ctx)
+	if err != nil {
+		return nil, err
+	}
+	database.DB.Preload("Organization").First(user)
+	return user.Organization, nil
+}

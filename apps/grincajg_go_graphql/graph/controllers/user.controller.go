@@ -13,3 +13,4 @@ func Me(ctx context.Context) (*model.User, error) {
 	}
 	return user, nil
 }
+
