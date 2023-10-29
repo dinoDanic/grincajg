@@ -3,9 +3,8 @@ package controllers
 import (
 	"context"
 	"grincajg/database"
-	"grincajg/graph/middleware"
 	"grincajg/graph/model"
-	"log"
+	auth "grincajg/middleware"
 	"os"
 	"strings"
 	"time"
@@ -40,9 +39,6 @@ func CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, 
 	} else if result.Error != nil {
 		return &model.User{}, gqlerror.Errorf("Something went wrong")
 	}
-
-	log.Println("result")
-	log.Println(newUser)
 
 	return &newUser, nil
 }
@@ -86,9 +82,9 @@ func LoginUser(ctx context.Context, input model.LoginUserInput) (*model.Session,
 }
 
 func Me(ctx context.Context) (*model.User, error) {
-	user := middleware.ForContext(ctx)
+	user := auth.ForContext(ctx)
 	if user == nil {
 		return &model.User{}, gqlerror.Errorf("Not authorized")
 	}
-	return &model.User{}, nil
+	return user, nil
 }
