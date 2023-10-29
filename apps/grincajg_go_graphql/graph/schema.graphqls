@@ -23,10 +23,6 @@ input LoginUserInput {
   password: String!
 }
 
-type Query {
-  todos: [Todo!]!
-}
-
 input NewTodo {
   text: String!
   userId: String!
@@ -37,6 +33,11 @@ input CreateUserInput {
   name: String!
   pasword: String!
   posswordConfirm: String!
+}
+
+type Query {
+  todos: [Todo!]!
+  me: User!
 }
 
 type Mutation {
