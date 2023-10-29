@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"grincajg/database"
+	"grincajg/graph/middleware"
 	"grincajg/graph/model"
 	"log"
 	"os"
@@ -84,7 +85,10 @@ func LoginUser(ctx context.Context, input model.LoginUserInput) (*model.Session,
 	return &model.Session{Token: tokenString}, nil
 }
 
-
 func Me(ctx context.Context) (*model.User, error) {
-  return &model.User{}, nil
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, gqlerror.Errorf("Not authorized")
+	}
+	return &model.User{}, nil
 }
