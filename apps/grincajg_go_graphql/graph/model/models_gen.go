@@ -2,6 +2,11 @@
 
 package model
 
+type CreateStoreInput struct {
+	Name    string `json:"name"`
+	Address string `json:"address"`
+}
+
 type CreateUserInput struct {
 	Email           string `json:"email"`
 	Name            string `json:"name"`

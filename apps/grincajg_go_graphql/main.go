@@ -13,7 +13,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-const defaultPort = "8080"
+const defaultPort = ":8090"
 
 func main() {
 	env.LoadEnv()
@@ -24,15 +24,17 @@ func main() {
 	router.Use(middleware.Middleware())
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+
 	router.Handle("/", playground.Handler("Grincajg", "/query"))
 	router.Handle("/query", srv)
 
-	err := http.ListenAndServe(":8090", router)
+	err := http.ListenAndServe(defaultPort, router)
+
 	if err != nil {
 		panic(err)
 	}
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", "8080")
-	log.Fatal(http.ListenAndServe(":8090", nil))
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", defaultPort)
+	log.Fatal(http.ListenAndServe(defaultPort, nil))
 
 }

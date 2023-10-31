@@ -11,10 +11,22 @@ type User {
 type Organization {
   id: ID!
   name: String!
+  stores: [Store]!
+}
+
+type Store {
+  id: ID!
+  name: String!
+  Address: String!
 }
 
 input CreateOrganizationInput {
   name: String!
+}
+
+input CreateStoreInput {
+  name: String!
+  address: String!
 }
 
 type Session {
@@ -41,4 +53,5 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   loginUser(input: LoginUserInput!): Session!
   createOrganization(input: CreateOrganizationInput!): Organization!
+  createStore(input: CreateStoreInput!): Store!
 }

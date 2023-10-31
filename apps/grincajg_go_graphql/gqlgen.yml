@@ -89,3 +89,7 @@ models:
     fields:
       organization:
         resolver: true
+  Organization:
+    fields:
+      stores:
+        resolver: true
