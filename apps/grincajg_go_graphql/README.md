@@ -23,7 +23,7 @@ docker buildx inspect --bootstrap
 3.This command builds and pushes a multi-architecture image to Docker Hub. The --platform flag specifies the target platforms for the build (in this case, linux/amd64 and linux/arm64).
 
 ```
-docker buildx build --platform linux/amd64,linux/arm64 -t dinodanic/grincajg:latest . --push
+docker buildx build --platform linux/amd64,linux/arm64 -t dinodanic/grincajg_go_graphql:latest . --push
 ```
 
 If you've previously set up a builder instance, you can use just the last command to build and push your image. Otherwise, you should run all three commands to ensure that everything is set up correctly.
