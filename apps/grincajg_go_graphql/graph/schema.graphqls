@@ -20,6 +20,18 @@ type Store {
   Address: String!
 }
 
+type Category {
+  id: ID!
+  name: String!
+  parent: Category
+}
+
+input CreateCategoryInput {
+  name: String!
+  parentCategoryId: ID
+}
+
+
 input CreateOrganizationInput {
   name: String!
 }
@@ -54,4 +66,5 @@ type Mutation {
   loginUser(input: LoginUserInput!): Session!
   createOrganization(input: CreateOrganizationInput!): Organization!
   createStore(input: CreateStoreInput!): Store!
+  createCategory(input: CreateCategoryInput!): Category!
 }

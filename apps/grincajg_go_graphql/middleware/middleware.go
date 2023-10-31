@@ -78,5 +78,17 @@ func GetUser(ctx context.Context) (*model.User, error) {
 	if user == nil {
 		return &model.User{}, gqlerror.Errorf("Not authorized")
 	}
+
+	return user, nil
+}
+
+func GetSuperUser(ctx context.Context) (*model.User, error) {
+	user := ForContext(ctx)
+	if user == nil {
+		return nil, gqlerror.Errorf("Not authorized")
+	}
+	if user.SuperAdmin == nil || !*user.SuperAdmin {
+		return nil, gqlerror.Errorf("No permission")
+	}
 	return user, nil
 }

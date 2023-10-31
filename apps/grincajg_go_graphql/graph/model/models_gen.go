@@ -2,6 +2,11 @@
 
 package model
 
+type CreateCategoryInput struct {
+	Name             string  `json:"name"`
+	ParentCategoryID *string `json:"parentCategoryId,omitempty"`
+}
+
 type CreateStoreInput struct {
 	Name    string `json:"name"`
 	Address string `json:"address"`

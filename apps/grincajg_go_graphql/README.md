@@ -4,6 +4,14 @@
 migrate -path database/migration/ -database "postgresql://postgres:postgres@localhost:5432/grincajg_graphql_dev?sslmode=disable" -verbose up
 ```
 
+## create migrations
+
+```
+migrate create -ext sql -dir database/migration/ -seq create-category
+migrate -path database/migration/ -database "postgresql://postgres:postgres@localhost:5432/grincajg_graphql_dev?sslmode=disable" down 1
+
+```
+
 ## deploy docker
 
 1. This command creates a new builder instance and sets it as the current builder.

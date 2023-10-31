@@ -30,6 +30,11 @@ func (r *mutationResolver) CreateStore(ctx context.Context, input model.CreateSt
 	return controllers.CreateStore(ctx, input)
 }
 
+// CreateCategory is the resolver for the createCategory field.
+func (r *mutationResolver) CreateCategory(ctx context.Context, input model.CreateCategoryInput) (*model.Category, error) {
+	return controllers.CreateCategory(ctx, input)
+}
+
 // Stores is the resolver for the stores field.
 func (r *organizationResolver) Stores(ctx context.Context, obj *model.Organization) ([]*model.Store, error) {
 	return controllers.GetStores(ctx)
