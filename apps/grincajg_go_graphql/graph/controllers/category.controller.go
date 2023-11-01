@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"grincajg/database"
 	"grincajg/graph/model"
 	"grincajg/middleware"
 	"strconv"
@@ -35,4 +36,20 @@ func CreateCategory(ctx context.Context, input model.CreateCategoryInput) (*mode
 	}
 
 	return createdCategory, nil
+}
+
+func GetCategories(ctx context.Context) ([]*model.Category, error) {
+	_, err := middleware.GetSuperUser(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var categories []*model.Category
+
+	// database.DB.Where("category_id IS NULL").Find(&categories)
+	database.DB.Find(&categories)
+
+	return categories, nil
+
 }

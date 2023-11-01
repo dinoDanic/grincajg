@@ -45,6 +45,11 @@ func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
 	return controllers.Me(ctx)
 }
 
+// Categories is the resolver for the categories field.
+func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
+	return controllers.GetCategories(ctx)
+}
+
 // Organization is the resolver for the organization field.
 func (r *userResolver) Organization(ctx context.Context, obj *model.User) (*model.Organization, error) {
 	return controllers.GetMeOrganization(ctx)

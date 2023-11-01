@@ -59,6 +59,7 @@ input CreateUserInput {
 
 type Query {
   me: User!
+  categories: [Category]
 }
 
 type Mutation {
