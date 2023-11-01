@@ -1,14 +1,28 @@
-import { StyleSheet } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { SearchBar } from "../../features/map/components/search-bar/search-bar";
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
-
-export default function TabOneScreen() {
+export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <MapView
+        // onPress={(e) => console.log(e)}
+        style={styles.map}
+        // onRegionChange={(e) => console.log(e)}
+      >
+        <Marker
+          draggable
+          coordinate={{
+            latitude: 45.62839378272178,
+            longitude: 15.951489423726455,
+          }}
+          title="title"
+          description="descirption"
+        />
+      </MapView>
+
+      <SearchBar />
     </View>
   );
 }
@@ -16,16 +30,9 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  map: {
+    width: "100%",
+    height: "100%",
   },
 });
