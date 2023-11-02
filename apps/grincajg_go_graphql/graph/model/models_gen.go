@@ -15,7 +15,7 @@ type CreateStoreInput struct {
 type CreateUserInput struct {
 	Email           string `json:"email"`
 	Name            string `json:"name"`
-	Pasword         string `json:"pasword"`
+	Password        string `json:"password"`
 	PasswordConfirm string `json:"passwordConfirm"`
 }
 

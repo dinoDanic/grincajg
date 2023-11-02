@@ -15,11 +15,11 @@ import (
 
 func CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 
-	if input.Pasword != input.PasswordConfirm {
+	if input.Password != input.PasswordConfirm {
 		return &model.User{}, gqlerror.Errorf("Passwords do not match")
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Pasword), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	//
 	if err != nil {
 		return &model.User{}, gqlerror.Errorf("Problem with password")
