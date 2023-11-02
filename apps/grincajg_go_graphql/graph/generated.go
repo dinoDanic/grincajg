@@ -3566,7 +3566,7 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"email", "name", "pasword", "posswordConfirm"}
+	fieldsInOrder := [...]string{"email", "name", "pasword", "passwordConfirm"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -3600,15 +3600,15 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 				return it, err
 			}
 			it.Pasword = data
-		case "posswordConfirm":
+		case "passwordConfirm":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("posswordConfirm"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("passwordConfirm"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.PosswordConfirm = data
+			it.PasswordConfirm = data
 		}
 	}
 

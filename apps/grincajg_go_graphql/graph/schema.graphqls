@@ -54,7 +54,7 @@ input CreateUserInput {
   email: String!
   name: String!
   pasword: String!
-  posswordConfirm: String!
+  passwordConfirm: String!
 }
 
 type Query {

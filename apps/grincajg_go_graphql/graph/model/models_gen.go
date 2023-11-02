@@ -16,7 +16,7 @@ type CreateUserInput struct {
 	Email           string `json:"email"`
 	Name            string `json:"name"`
 	Pasword         string `json:"pasword"`
-	PosswordConfirm string `json:"posswordConfirm"`
+	PasswordConfirm string `json:"passwordConfirm"`
 }
 
 type LoginUserInput struct {

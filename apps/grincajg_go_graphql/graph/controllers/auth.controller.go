@@ -15,7 +15,7 @@ import (
 
 func CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 
-	if input.Pasword != input.PosswordConfirm {
+	if input.Pasword != input.PasswordConfirm {
 		return &model.User{}, gqlerror.Errorf("Passwords do not match")
 	}
 
