@@ -17,6 +17,13 @@ export default function SignIn() {
       >
         Sign In
       </Text>
+      <Text
+        onPress={() => {
+          router.replace("/register");
+        }}
+      >
+        Register
+      </Text>
     </View>
   );
 }
