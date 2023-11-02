@@ -25,8 +25,8 @@ func main() {
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 
-	router.Handle("/", playground.Handler("Grincajg", "/query"))
-	router.Handle("/query", srv)
+	router.Handle("/", playground.Handler("Grincajg", "/api"))
+	router.Handle("/api", srv)
 
 	err := http.ListenAndServe(defaultPort, router)
 
