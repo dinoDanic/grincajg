@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+
 import { SearchBar } from "../../features/map/components/search-bar/search-bar";
 
 export default function App() {
@@ -21,7 +22,6 @@ export default function App() {
           description="descirption"
         />
       </MapView>
-
       <SearchBar />
     </View>
   );

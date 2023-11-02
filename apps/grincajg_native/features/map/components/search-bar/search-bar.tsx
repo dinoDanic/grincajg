@@ -39,9 +39,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   container: {
-    borderRadius: 15,
-    padding: 20,
-    width: "80%",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    padding: 16,
+    width: "90%",
     alignSelf: "center",
   },
 });
