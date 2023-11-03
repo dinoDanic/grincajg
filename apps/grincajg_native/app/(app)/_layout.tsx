@@ -1,5 +1,5 @@
-import { Redirect, Tabs } from "expo-router"
-import { MessageCircleIcon, SearchCodeIcon, SearchIcon, ShoppingBasketIcon, UserCircleIcon } from "lucide-react-native"
+import { Tabs } from "expo-router"
+import { MessageCircleIcon, SearchIcon, ShoppingBasketIcon, UserCircleIcon } from "lucide-react-native"
 import { useColorScheme } from "react-native"
 
 import { Text } from "../../components/Themed"
@@ -8,21 +8,20 @@ import { useSession } from "../../features/auth/ctx"
 
 export default function TabLayout() {
   const colorScheme = useColorScheme()
-  const { session, isLoading } = useSession() || {}
+  const { isLoading } = useSession() || {}
 
   if (isLoading) {
     return <Text>Loading..</Text>
   }
 
-  if (!session) {
-    return <Redirect href="/sign-in" />
-  }
+  // if (!session) {
+  //   return <Redirect href="/sign-in" />
+  // }
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        // tabBarShowLabel: false,
         headerShown: false,
       }}
     >
