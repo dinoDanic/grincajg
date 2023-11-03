@@ -16,6 +16,18 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  parent?: Maybe<Category>;
+};
+
+export type CreateCategoryInput = {
+  name: Scalars['String']['input'];
+  parentCategoryId?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type CreateOrganizationInput = {
   name: Scalars['String']['input'];
 };
@@ -28,8 +40,8 @@ export type CreateStoreInput = {
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  pasword: Scalars['String']['input'];
-  posswordConfirm: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  passwordConfirm: Scalars['String']['input'];
 };
 
 export type LoginUserInput = {
@@ -39,10 +51,16 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createCategory: Category;
   createOrganization: Organization;
   createStore: Store;
   createUser: User;
   loginUser: Session;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  input: CreateCategoryInput;
 };
 
 
@@ -74,6 +92,7 @@ export type Organization = {
 
 export type Query = {
   __typename?: 'Query';
+  categories?: Maybe<Array<Maybe<Category>>>;
   me: User;
 };
 
@@ -103,5 +122,11 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, id: string } };
 
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', name: string } };
+
 
 export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;

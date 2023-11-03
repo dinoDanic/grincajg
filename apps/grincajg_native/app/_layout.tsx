@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { SessionProvider } from "@/features/auth/ctx"
+import { QueryProvider } from "@/lib"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
 import { useFonts } from "expo-font"
@@ -48,16 +49,11 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SessionProvider>
-        <Slot />
-      </SessionProvider>
-      {/* <Stack> */}
-      {/*   <Stack.Screen */}
-      {/*     name="(app)" */}
-      {/*     options={{ headerShown: false, presentation: "modal" }} */}
-      {/*   /> */}
-      {/*   <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
-      {/* </Stack> */}
+      <QueryProvider>
+        <SessionProvider>
+          <Slot />
+        </SessionProvider>
+      </QueryProvider>
     </ThemeProvider>
   )
 }

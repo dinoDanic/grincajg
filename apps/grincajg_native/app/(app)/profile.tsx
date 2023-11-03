@@ -1,21 +1,21 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
-import { Text, View } from "../../components/Themed";
-import { useSession } from "../../features/auth/ctx";
+import { Text, View } from "../../components/Themed"
+import { useSession } from "../../features/auth/ctx"
 
-export default function TabOrdersScreen() {
-  const { signOut } = useSession() || {};
+export default function TabProfileScreen() {
+  const { signOut } = useSession() || {}
   return (
     <View style={styles.container}>
       <Text
         onPress={() => {
-          signOut && signOut();
+          signOut && signOut()
         }}
       >
         Sign Out
       </Text>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
-});
+})

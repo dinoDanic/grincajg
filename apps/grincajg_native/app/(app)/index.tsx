@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import MapView, { Marker } from "react-native-maps"
 
-import { SearchBar } from "../../features/map/components/search-bar/search-bar";
+import { SearchBar } from "../../features/map/components/search-bar/search-bar"
 
 export default function App() {
   return (
@@ -24,7 +24,7 @@ export default function App() {
       </MapView>
       <SearchBar />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-});
+})
