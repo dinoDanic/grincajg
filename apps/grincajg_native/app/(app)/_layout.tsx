@@ -1,13 +1,11 @@
+import { Colors } from "@/constants"
 import { Tabs } from "expo-router"
 import { MessageCircleIcon, SearchIcon, ShoppingBasketIcon, UserCircleIcon } from "lucide-react-native"
-import { useColorScheme } from "react-native"
 
 import { Text } from "../../components/Themed"
-import Colors from "../../constants/Colors"
 import { useSession } from "../../features/auth/ctx"
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme()
   const { isLoading } = useSession() || {}
 
   if (isLoading) {
@@ -21,7 +19,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors.primary,
         headerShown: false,
       }}
     >

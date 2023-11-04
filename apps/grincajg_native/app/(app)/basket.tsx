@@ -8,7 +8,7 @@ export default function TabBasketScreen() {
   if (!session)
     return (
       <NotAuthorizedPageLayout
-        pageTitle="Boro"
+        pageTitle="Košarica"
         title="Lorem ipsum dolor sit amet"
         descirption="Qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
       />

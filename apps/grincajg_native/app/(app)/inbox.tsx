@@ -1,8 +1,19 @@
+import { useSession } from "@/features/auth/ctx"
+import { NotAuthorizedPageLayout } from "@/layouts/not-authorized"
 import { StyleSheet } from "react-native"
 
 import { Text, View } from "../../components/Themed"
 
 export default function TabInboxScreen() {
+  const { session } = useSession() || {}
+  if (!session)
+    return (
+      <NotAuthorizedPageLayout
+        pageTitle="Poruke"
+        title="Lorem ipsum dolor sit amet"
+        descirption="Qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
+      />
+    )
   return (
     <View style={styles.container}>
       <Text>inbox</Text>

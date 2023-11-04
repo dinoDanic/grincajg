@@ -21,8 +21,11 @@ export const NotAuthorizedPageLayout = ({ pageTitle, title, descirption }: Props
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.descirption}>{descirption}</Text>
         </View>
-        <View style={styles.subCont}>
-          <Button>Login</Button>
+        <View style={styles.actions}>
+          <Button style={{ width: 100 }}>Prijava</Button>
+          <Button variants="link" style={{ width: 120 }}>
+            Registracija
+          </Button>
         </View>
       </View>
     </>
@@ -49,5 +52,10 @@ const styles = StyleSheet.create({
   subCont: {
     padding: Spacing.md,
     gap: Spacing.sm,
+  },
+  actions: {
+    padding: Spacing.md,
+    gap: Spacing.sm,
+    flexDirection: "row",
   },
 })
