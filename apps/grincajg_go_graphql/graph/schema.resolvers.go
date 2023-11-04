@@ -50,6 +50,11 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 	return controllers.GetCategories(ctx)
 }
 
+// GetOrganizationsOnMap is the resolver for the getOrganizationsOnMap field.
+func (r *queryResolver) GetOrganizationsOnMap(ctx context.Context, input model.GetOrganizationsOnMapInput) ([]*model.Organization, error) {
+	return controllers.GetOrganizationsOnMap(ctx, input)
+}
+
 // Organization is the resolver for the organization field.
 func (r *userResolver) Organization(ctx context.Context, obj *model.User) (*model.Organization, error) {
 	return controllers.GetMeOrganization(ctx)

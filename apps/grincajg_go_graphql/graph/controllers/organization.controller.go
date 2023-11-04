@@ -50,3 +50,28 @@ func GetMeOrganization(ctx context.Context) (*model.Organization, error) {
 
 	return user.Organization, nil
 }
+
+func GetOrganizationsOnMap(ctx context.Context, input model.GetOrganizationsOnMapInput) ([]*model.Organization, error) {
+	ne := input.Northeast
+	sw := input.Southwest
+
+	// Ensure that the longitude and latitude values are in the correct order
+	if ne.Latitude < sw.Latitude {
+		ne.Latitude, sw.Latitude = sw.Latitude, ne.Latitude
+	}
+	if ne.Longitude < sw.Longitude {
+		ne.Longitude, sw.Longitude = sw.Longitude, ne.Longitude
+	}
+
+	var organizations []*model.Organization
+	err := database.DB.
+		Where("latitude BETWEEN ? AND ?", sw.Latitude, ne.Latitude).
+		Where("longitude BETWEEN ? AND ?", sw.Longitude, ne.Longitude).
+		Find(&organizations).Error
+
+	if err != nil {
+		return nil, gqlerror.Errorf("Error retrieving organizations: %v", err)
+	}
+
+	return organizations, nil
+}

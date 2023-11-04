@@ -12,6 +12,8 @@ type Organization {
   id: ID!
   name: String!
   stores: [Store]!
+  latitude: Float!
+  longitude: Float!
 }
 
 type Store {
@@ -58,9 +60,20 @@ input CreateUserInput {
   passwordConfirm: String!
 }
 
+input Location {
+  latitude: Float!
+  longitude: Float!
+}
+
+input getOrganizationsOnMapInput {
+  northeast: Location!
+  southwest: Location!
+}
+
 type Query {
   me: User!
   categories: [Category]
+  getOrganizationsOnMap(input: getOrganizationsOnMapInput!): [Organization]
 }
 
 type Mutation {

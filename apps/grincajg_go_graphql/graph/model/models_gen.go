@@ -25,6 +25,11 @@ type CreateUserInput struct {
 	PasswordConfirm string `json:"passwordConfirm"`
 }
 
+type Location struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
 type LoginUserInput struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -32,4 +37,9 @@ type LoginUserInput struct {
 
 type Session struct {
 	Token string `json:"token"`
+}
+
+type GetOrganizationsOnMapInput struct {
+	Northeast *Location `json:"northeast"`
+	Southwest *Location `json:"southwest"`
 }
