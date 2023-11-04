@@ -4,7 +4,7 @@ import { QueryProvider } from "@/lib"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
 import { useFonts } from "expo-font"
-import { Slot, SplashScreen } from "expo-router"
+import { Slot, SplashScreen, Stack } from "expo-router"
 import { useColorScheme } from "react-native"
 
 export {
@@ -51,7 +51,14 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <QueryProvider>
         <SessionProvider>
-          <Slot />
+          <Stack screenOptions={{ headerShown: false }}>
+            {/*   <Stack.Screen */}
+            {/*     name="(app)" */}
+            {/*     options={{ headerShown: false, presentation: "modal" }} */}
+            {/*   /> */}
+            <Stack.Screen name="sign-in-modal" options={{ presentation: "modal" }} />
+            <Stack.Screen name="register-modal" options={{ presentation: "modal" }} />
+          </Stack>
         </SessionProvider>
       </QueryProvider>
     </ThemeProvider>

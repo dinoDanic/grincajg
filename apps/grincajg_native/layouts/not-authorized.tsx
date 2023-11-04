@@ -1,5 +1,6 @@
 import React from "react"
 import { Spacing } from "@/constants"
+import { Link } from "expo-router"
 import { SafeAreaView, StyleSheet } from "react-native"
 
 import { Button } from "@/components/ui/button"
@@ -22,10 +23,14 @@ export const NotAuthorizedPageLayout = ({ pageTitle, title, descirption }: Props
           <Text style={styles.descirption}>{descirption}</Text>
         </View>
         <View style={styles.actions}>
-          <Button style={{ width: 100 }}>Prijava</Button>
-          <Button variants="link" style={{ width: 120 }}>
-            Registracija
-          </Button>
+          <Link href="/sign-in-modal">
+            <Button style={{ width: 100 }}>Prijava</Button>
+          </Link>
+          <Link href="/register-modal">
+            <Button variants="link" style={{ width: 120 }}>
+              Registracija
+            </Button>
+          </Link>
         </View>
       </View>
     </>
