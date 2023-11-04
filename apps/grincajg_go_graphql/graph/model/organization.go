@@ -6,8 +6,10 @@ import (
 )
 
 type Organization struct {
-	ID   int    `gorm:"primarykey"`
-	Name string `gorm:"type:varchar(100);not null"`
+	ID        int     `gorm:"primarykey"`
+	Name      string  `gorm:"type:varchar(100);not null"`
+	Latitude  float64 `gorm:"type:decimal(10,8);not null"`
+	Longitude float64 `gorm:"type:decimal(11,8);not null"`
 
 	AdminUserID int `gorm:"unique;index"`
 	AdminUser   *User
@@ -16,10 +18,6 @@ type Organization struct {
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
-}
-
-type CreateOrganizationInput struct {
-	Name string `json:"name" validate:"required" example:"organization example 1"`
 }
 
 func (organization *Organization) SaveOrganization() (*Organization, error) {

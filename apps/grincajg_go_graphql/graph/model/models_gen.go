@@ -7,6 +7,12 @@ type CreateCategoryInput struct {
 	ParentCategoryID *string `json:"parentCategoryId,omitempty"`
 }
 
+type CreateOrganizationInput struct {
+	Name      string  `json:"name"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
 type CreateStoreInput struct {
 	Name    string `json:"name"`
 	Address string `json:"address"`

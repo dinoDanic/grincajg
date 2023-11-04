@@ -18,6 +18,8 @@ func CreateOrganization(ctx context.Context, input model.CreateOrganizationInput
 	newOrganization := model.Organization{
 		AdminUserID: user.ID,
 		Name:        input.Name,
+		Latitude:    input.Latitude,
+		Longitude:   input.Longitude,
 	}
 
 	orgEntry, error := newOrganization.SaveOrganization()

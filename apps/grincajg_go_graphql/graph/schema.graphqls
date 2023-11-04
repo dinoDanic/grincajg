@@ -31,9 +31,10 @@ input CreateCategoryInput {
   parentCategoryId: ID
 }
 
-
 input CreateOrganizationInput {
   name: String!
+  latitude: Float!
+  longitude: Float!
 }
 
 input CreateStoreInput {
