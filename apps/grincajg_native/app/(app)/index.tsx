@@ -1,27 +1,41 @@
 import React from "react"
+import { Colors } from "@/constants"
+import { useMapView } from "@/features/map/hooks/useMapView"
+import { _client } from "@/lib"
 import { StyleSheet, View } from "react-native"
 import MapView, { Marker } from "react-native-maps"
+
+import { Text } from "@/components/Themed"
 
 import { SearchBar } from "../../features/map/components/search-bar/search-bar"
 
 export default function App() {
+  const { query, onRegionChangeComplete } = useMapView()
+  const { data, isFetching } = query
+
   return (
     <View style={styles.container}>
-      <MapView
-        // onPress={(e) => console.log(e)}
-        style={styles.map}
-        // onRegionChange={(e) => console.log(e)}
-      >
-        <Marker
-          draggable
-          coordinate={{
-            latitude: 45.62839378272178,
-            longitude: 15.951489423726455,
-          }}
-          title="title"
-          description="descirption"
-        />
+      <MapView style={styles.map} provider="google" onRegionChangeComplete={onRegionChangeComplete}>
+        {data?.getOrganizationsOnMap?.map((org) => {
+          if (!org?.latitude || !org.longitude) return null
+          return (
+            <Marker
+              key={org.id}
+              coordinate={{ longitude: org?.longitude, latitude: org?.latitude }}
+              title={`organization id: ${org.id}`}
+              pinColor={Colors.primary}
+              description="vazin"
+            />
+          )
+        })}
       </MapView>
+      {isFetching && (
+        <View
+          style={{ position: "absolute", top: 120, left: 20, backgroundColor: "white", padding: 10, borderRadius: 10 }}
+        >
+          <Text>LOADING</Text>
+        </View>
+      )}
       <SearchBar />
     </View>
   )

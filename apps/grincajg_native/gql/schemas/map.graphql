@@ -1,0 +1,7 @@
+query getOrganizationsOnMap($input: getOrganizationsOnMapInput!) {
+  getOrganizationsOnMap(input: $input) {
+    id
+    latitude
+    longitude
+  }
+}

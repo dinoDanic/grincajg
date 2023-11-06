@@ -29,6 +29,8 @@ export type CreateCategoryInput = {
 };
 
 export type CreateOrganizationInput = {
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -42,6 +44,11 @@ export type CreateUserInput = {
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   passwordConfirm: Scalars['String']['input'];
+};
+
+export type Location = {
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
 };
 
 export type LoginUserInput = {
@@ -86,6 +93,8 @@ export type MutationLoginUserArgs = {
 export type Organization = {
   __typename?: 'Organization';
   id: Scalars['ID']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   stores: Array<Maybe<Store>>;
 };
@@ -93,7 +102,13 @@ export type Organization = {
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
+  getOrganizationsOnMap?: Maybe<Array<Maybe<Organization>>>;
   me: User;
+};
+
+
+export type QueryGetOrganizationsOnMapArgs = {
+  input: GetOrganizationsOnMapInput;
 };
 
 export type Session = {
@@ -115,6 +130,11 @@ export type User = {
   organization?: Maybe<Organization>;
 };
 
+export type GetOrganizationsOnMapInput = {
+  northeast: Location;
+  southwest: Location;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -122,11 +142,13 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, id: string } };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetOrganizationsOnMapQueryVariables = Exact<{
+  input: GetOrganizationsOnMapInput;
+}>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', name: string } };
+export type GetOrganizationsOnMapQuery = { __typename?: 'Query', getOrganizationsOnMap?: Array<{ __typename?: 'Organization', id: string, latitude: number, longitude: number } | null> | null };
 
 
 export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
-export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
+export const GetOrganizationsOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrganizationsOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"getOrganizationsOnMapInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getOrganizationsOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode<GetOrganizationsOnMapQuery, GetOrganizationsOnMapQueryVariables>;
