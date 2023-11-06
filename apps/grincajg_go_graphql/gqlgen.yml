@@ -93,3 +93,7 @@ models:
     fields:
       stores:
         resolver: true
+  Category:
+    fields:
+      children:
+        resolver: true

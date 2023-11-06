@@ -10,6 +10,7 @@ type Category struct {
 	Name       string `gorm:"type:varchar(100);not null;unique"`
 	CategoryID *int
 	Parent     *Category
+	Childrens     []*Category
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

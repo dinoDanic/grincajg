@@ -10,6 +10,11 @@ import (
 	"grincajg/graph/model"
 )
 
+// Children is the resolver for the children field.
+func (r *categoryResolver) Children(ctx context.Context, obj *model.Category) ([]*model.Category, error) {
+	return controllers.GetCategoryChildrens(ctx, obj)
+}
+
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	return controllers.CreateUser(ctx, input)
@@ -60,6 +65,9 @@ func (r *userResolver) Organization(ctx context.Context, obj *model.User) (*mode
 	return controllers.GetMeOrganization(ctx)
 }
 
+// Category returns CategoryResolver implementation.
+func (r *Resolver) Category() CategoryResolver { return &categoryResolver{r} }
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
@@ -72,6 +80,7 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 // User returns UserResolver implementation.
 func (r *Resolver) User() UserResolver { return &userResolver{r} }
 
+type categoryResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type organizationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

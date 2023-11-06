@@ -26,6 +26,7 @@ type Category {
   id: ID!
   name: String!
   parent: Category
+  children: [Category]
 }
 
 input CreateCategoryInput {
