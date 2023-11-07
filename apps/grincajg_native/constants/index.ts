@@ -12,6 +12,8 @@ export const Spacing = {
 
 export const Border = {
   md: 6,
+  xl: 12,
+  lg: 24,
 }
 
 const Pallete = {
@@ -47,6 +49,8 @@ const Pallete = {
 
 export const Colors = {
   primary: Pallete.caramelDrizzle.background,
+  input: "#eee",
   "primary-foreground": Pallete.caramelDrizzle.foreground,
   accents: Pallete.sageGreen.foreground,
+  gray: "#999"
 }

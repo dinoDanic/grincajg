@@ -1,50 +1,24 @@
-import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { SafeAreaView, StyleSheet, View } from "react-native"
 
-import { useThemeColor } from "../../../../components/Themed";
-import Colors from "../../../../constants/Colors";
+import { CategoriesPrevies } from "./categories-previes"
+import { SearchInput } from "./search-input"
 
 export const SearchBar = () => {
-  const [text, onChangeText] = useState("");
-
-  const background = useThemeColor(
-    { light: Colors.light.background, dark: Colors.dark.background },
-    "background",
-  );
-  const inputColor = useThemeColor(
-    { light: Colors.light.text, dark: Colors.dark.text },
-    "text",
-  );
   return (
     <>
       <View style={styles.wrapper}>
         <SafeAreaView />
-        <View style={{ ...styles.container, backgroundColor: background }}>
-          <TextInput
-            onChangeText={(newText) => onChangeText(newText)}
-            value={text}
-            placeholder="Pretrazi"
-            style={{ color: inputColor }}
-          />
-        </View>
+        <SearchInput />
+        <CategoriesPrevies />
       </View>
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
     width: "100%",
+    backgroundColor: "white",
   },
-  container: {
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    padding: 16,
-    width: "90%",
-    alignSelf: "center",
-  },
-});
+})

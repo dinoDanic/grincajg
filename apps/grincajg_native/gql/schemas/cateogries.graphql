@@ -1,0 +1,6 @@
+query getMainCategories {
+  categories {
+    id
+    name
+  }
+}

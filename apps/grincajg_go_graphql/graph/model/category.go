@@ -7,7 +7,7 @@ import (
 
 type Category struct {
 	ID         int    `gorm:"primarykey"`
-	Name       string `gorm:"type:varchar(100);not null;unique"`
+	Name       string `gorm:"type:varchar(100);not null"`
 	CategoryID *int
 	Parent     *Category
 	Childrens     []*Category

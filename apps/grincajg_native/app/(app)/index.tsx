@@ -1,7 +1,6 @@
 import React from "react"
 import { Colors } from "@/constants"
 import { useMapView } from "@/features/map/hooks/useMapView"
-import { _client } from "@/lib"
 import { StyleSheet, View } from "react-native"
 import MapView, { Marker } from "react-native-maps"
 
@@ -15,7 +14,13 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} provider="google" onRegionChangeComplete={onRegionChangeComplete}>
+      <MapView
+        camera={{ pitch: 0, center: { latitude: 45.7, longitude: 16 }, zoom: 9, heading: 0 }}
+        minZoomLevel={9}
+        style={styles.map}
+        provider="google"
+        onRegionChangeComplete={onRegionChangeComplete}
+      >
         {data?.getOrganizationsOnMap?.map((org) => {
           if (!org?.latitude || !org.longitude) return null
           return (
