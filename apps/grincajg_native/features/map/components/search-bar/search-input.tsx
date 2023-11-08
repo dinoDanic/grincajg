@@ -1,22 +1,23 @@
 import React, { useState } from "react"
 import { Colors, Spacing } from "@/constants"
 import { SearchIcon } from "lucide-react-native"
-import { StyleSheet, TextInput, View } from "react-native"
+import { StyleSheet, Text, TextInput, View } from "react-native"
 
 export const SearchInput = () => {
   const [text, onChangeText] = useState("")
   return (
     <View style={{ ...styles.container, backgroundColor: "white" }}>
       <View style={styles.inputwrap}>
-        <SearchIcon color={Colors.primary} />
-        <TextInput
-          onChangeText={(newText) => onChangeText(newText)}
-          value={text}
-          placeholder="Pretrazi"
-          style={{
-            color: Colors.primary,
-          }}
-        />
+        <SearchIcon size={20} color={Colors.gray} strokeWidth={3} />
+        <Text>Pretrazi</Text>
+        {/* <TextInput */}
+        {/*   onChangeText={(newText) => onChangeText(newText)} */}
+        {/*   value={text} */}
+        {/*   placeholder="Pretrazi" */}
+        {/*   style={{ */}
+        {/*     color: Colors.primary, */}
+        {/*   }} */}
+        {/* /> */}
       </View>
     </View>
   )

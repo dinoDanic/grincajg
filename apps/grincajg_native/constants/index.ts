@@ -52,5 +52,6 @@ export const Colors = {
   input: "#eee",
   "primary-foreground": Pallete.caramelDrizzle.foreground,
   accents: Pallete.sageGreen.foreground,
-  gray: "#999"
+  gray: "#999",
+  dark: "#333"
 }
