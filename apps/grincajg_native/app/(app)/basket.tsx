@@ -1,7 +1,7 @@
+import { Text } from "@/components"
 import { useSession } from "@/features/auth/ctx"
 import { NotAuthorizedPageLayout } from "@/layouts/not-authorized"
-
-import { Text, View } from "../../components/Themed"
+import { View } from "react-native"
 
 export default function TabBasketScreen() {
   const { session } = useSession() || {}
@@ -21,7 +21,7 @@ export default function TabBasketScreen() {
         justifyContent: "center",
       }}
     >
-      <Text style={{}}>kosarica</Text>
+      <Text>kosarica</Text>
     </View>
   )
 }

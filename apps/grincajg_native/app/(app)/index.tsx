@@ -1,10 +1,9 @@
 import React from "react"
+import { Text } from "@/components"
 import { Colors } from "@/constants"
 import { useMapView } from "@/features/map/hooks/useMapView"
 import { StyleSheet, View } from "react-native"
 import MapView, { Marker } from "react-native-maps"
-
-import { Text } from "@/components/Themed"
 
 import { SearchBar } from "../../features/map/components/search-bar/search-bar"
 

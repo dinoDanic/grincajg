@@ -1,8 +1,8 @@
+import { Text } from "@/components"
 import { Colors } from "@/constants"
 import { Tabs } from "expo-router"
 import { MessageCircleIcon, SearchIcon, ShoppingBasketIcon, UserCircleIcon } from "lucide-react-native"
 
-import { Text } from "../../components/Themed"
 import { useSession } from "../../features/auth/ctx"
 
 export default function TabLayout() {

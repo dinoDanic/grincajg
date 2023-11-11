@@ -1,6 +1,4 @@
-import { Colors } from "@/constants"
 import {
-  AppleIcon,
   BananaIcon,
   BeanIcon,
   CarrotIcon,
@@ -11,42 +9,44 @@ import {
   GrapeIcon,
   HopIcon,
   LeafyGreenIcon,
+  LucideProps,
   MilkIcon,
   SoupIcon,
   TreePineIcon,
 } from "lucide-react-native"
 
-const color = Colors.gray
-
-export const iconsByCategoryId = (id: number) => {
+export const iconsByCategoryId = (id: number, color: string) => {
+  const iconsProps: LucideProps = {
+    color,
+  }
   switch (id) {
     case 1:
-      return <EggIcon color={color} />
+      return <EggIcon {...iconsProps} />
     case 2:
-      return <TreePineIcon color={color} />
+      return <TreePineIcon {...iconsProps} />
     case 3:
-      return <MilkIcon color={color} />
+      return <MilkIcon {...iconsProps} />
     case 4:
-      return <CroissantIcon color={color} />
+      return <CroissantIcon {...iconsProps} />
     case 5:
-      return <GlassWaterIcon color={color} />
+      return <GlassWaterIcon {...iconsProps} />
     case 6:
-      return <CoffeeIcon color={color} />
+      return <CoffeeIcon {...iconsProps} />
     case 7:
-      return <CarrotIcon color={color} />
+      return <CarrotIcon {...iconsProps} />
     case 8:
-      return <BananaIcon color={color} />
+      return <BananaIcon {...iconsProps} />
     case 9:
-      return <BeanIcon color={color} />
+      return <BeanIcon {...iconsProps} />
     case 10:
-      return <GrapeIcon color={color} />
+      return <GrapeIcon {...iconsProps} />
     case 11:
-      return <HopIcon color={color} />
+      return <HopIcon {...iconsProps} />
     case 12:
-      return <LeafyGreenIcon color={color} />
+      return <LeafyGreenIcon {...iconsProps} />
     case 13:
-      return <SoupIcon color={color} />
+      return <SoupIcon {...iconsProps} />
     default:
-      return <MilkIcon color={color} />
+      return <MilkIcon {...iconsProps} />
   }
 }

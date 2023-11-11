@@ -15,6 +15,7 @@ export const CategoriesPrevies = () => {
     return (
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={data.categories}
         renderItem={(item) => item.item && <CategoryIconCard category={item.item} />}
       />

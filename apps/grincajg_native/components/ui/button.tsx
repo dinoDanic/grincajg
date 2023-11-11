@@ -1,15 +1,13 @@
-import React, { PropsWithChildren } from "react"
+import React from "react"
 import { Border, Colors, Spacing } from "@/constants"
-import { StyleProp, TextStyle, ViewStyle } from "react-native"
+import { StyleProp, Text, TextStyle, TouchableOpacityProps, ViewStyle } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
-
-import { Text } from "../Themed"
 
 type Variants = "primary" | "link" | "secondary" | "ghost"
 
 type Sizes = "icon" | "default"
 
-type Props = PropsWithChildren & {
+type Props = TouchableOpacityProps & {
   style?: StyleProp<ViewStyle>
   variants?: Variants
   size?: Sizes
@@ -53,6 +51,7 @@ export const Button = ({ children, variants = "primary", size = "default", ...pr
     default: {},
   }
   return (
+    //@ts-ignore
     <TouchableOpacity
       style={[
         {
@@ -63,6 +62,7 @@ export const Button = ({ children, variants = "primary", size = "default", ...pr
         sizesVariants[size],
         props.style,
       ]}
+      {...props}
     >
       <Text style={[{ color: "white", alignSelf: "center" }, textStyleVariants[variants]]}>{children}</Text>
     </TouchableOpacity>

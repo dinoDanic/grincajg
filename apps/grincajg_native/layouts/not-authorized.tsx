@@ -1,10 +1,8 @@
 import React from "react"
+import { Button, Text } from "@/components"
 import { Spacing } from "@/constants"
 import { Link } from "expo-router"
-import { SafeAreaView, StyleSheet } from "react-native"
-
-import { Button } from "@/components/ui/button"
-import { Text, View } from "@/components/Themed"
+import { SafeAreaView, StyleSheet, View } from "react-native"
 
 type Props = {
   pageTitle: string

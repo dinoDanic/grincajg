@@ -1,7 +1,7 @@
+import { Text } from "@/components"
 import { NotAuthorizedPageLayout } from "@/layouts/not-authorized"
-import { StyleSheet } from "react-native"
+import { StyleSheet, View } from "react-native"
 
-import { Text, View } from "../../components/Themed"
 import { useSession } from "../../features/auth/ctx"
 
 export default function TabProfileScreen() {

@@ -1,8 +1,7 @@
+import { Text } from "@/components"
 import { useSession } from "@/features/auth/ctx"
 import { NotAuthorizedPageLayout } from "@/layouts/not-authorized"
-import { StyleSheet } from "react-native"
-
-import { Text, View } from "../../components/Themed"
+import { StyleSheet, View } from "react-native"
 
 export default function TabInboxScreen() {
   const { session } = useSession() || {}
