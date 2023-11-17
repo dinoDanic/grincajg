@@ -1,12 +1,15 @@
-package seeds
+package main
 
 import (
 	"grincajg/database"
+	"grincajg/env"
 	"grincajg/graph/model"
 	"log"
 )
 
-func seedDummy() {
+func main() {
+	env.LoadEnv()
+	database.Connect()
 
 	childCategories := []model.Category{
 		{Name: "Jaja"},

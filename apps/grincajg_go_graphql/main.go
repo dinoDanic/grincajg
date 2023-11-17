@@ -2,7 +2,6 @@ package main
 
 import (
 	"grincajg/database"
-	"grincajg/database/seeds"
 	"grincajg/env"
 	"grincajg/graph"
 	"grincajg/middleware"
@@ -19,7 +18,6 @@ const defaultPort = ":8090"
 func main() {
 	env.LoadEnv()
 	database.Connect()
-	seeds.SeedAll()
 
 	router := chi.NewRouter()
 

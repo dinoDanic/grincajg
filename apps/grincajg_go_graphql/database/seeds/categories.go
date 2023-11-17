@@ -1,4 +1,4 @@
-package seeds
+package main
 
 import (
 	"grincajg/database"
@@ -162,7 +162,6 @@ func seedFatsAndOils() {
 
 	log.Println("Fats and oils category seeding completed.")
 }
-
 
 func seedDairyProducts() {
 	var count int64

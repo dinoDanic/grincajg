@@ -12,6 +12,10 @@ migrate -path database/migration/ -database "postgresql://postgres:postgres@loca
 
 ```
 
+## seeds
+
+go run database/seeds/categories-dummy.go
+
 ## deploy docker
 
 1. This command creates a new builder instance and sets it as the current builder.
