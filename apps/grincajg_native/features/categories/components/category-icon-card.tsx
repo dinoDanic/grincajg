@@ -30,20 +30,9 @@ export const CategoryIconCard = (props: Props) => {
     <Button onPress={() => setSelectedCategory(props.category.id)} variants="ghost">
       <View style={{ gap: Spacing.sm, alignItems: "center", minWidth: 30 }}>
         {iconsByCategoryId(Number(props.category.id), color)}
-        <Text weight={nameWeight} tone={nameTone}>
+        <Text size="sm" weight={nameWeight} tone={nameTone}>
           {props.category.name}
         </Text>
-        {/* {isActive && ( */}
-        {/*   <View */}
-        {/*     style={{ */}
-        {/*       borderBottomWidth: 1, */}
-        {/*       width: "100%", */}
-        {/*       borderColor: Colors.primary, */}
-        {/*       position: "absolute", */}
-        {/*       bottom: 0, */}
-        {/*     }} */}
-        {/*   /> */}
-        {/* )} */}
       </View>
     </Button>
   )

@@ -42,8 +42,9 @@ export const Button = ({ children, variants = "primary", size = "default", ...pr
   }
   const sizesVariants: Record<Sizes, StyleProp<ViewStyle>> = {
     icon: {
-      width: 40,
-      height: 40,
+      width: 34,
+      height: 34,
+      display: "flex",
       justifyContent: "center",
       alignItems: "center",
       padding: 0,

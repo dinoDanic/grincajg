@@ -4,7 +4,7 @@ import { Text as TextNative, TextStyle, type TextProps } from "react-native"
 
 type Sizes = "default" | "sm" | "xs"
 export type TextWeight = "default" | "bold" | "bolder" | "oh tha boldesta"
-export type TextTone = "primary" | "default"
+export type TextTone = "primary" | "default" | "muted"
 
 type Props = TextProps & {
   size?: Sizes
@@ -13,9 +13,9 @@ type Props = TextProps & {
 }
 
 const sizesVariants: Record<Sizes, TextStyle["fontSize"]> = {
-  default: 10,
-  sm: 1,
-  xs: 4,
+  default: 14,
+  sm: 10,
+  xs: 8,
 }
 
 const weightVariants: Record<TextWeight, TextStyle["fontWeight"]> = {
@@ -28,6 +28,7 @@ const weightVariants: Record<TextWeight, TextStyle["fontWeight"]> = {
 const colorVariants: Record<TextTone, TextStyle["color"]> = {
   default: Colors.dark,
   primary: Colors.primary,
+  muted: Colors["primary-foreground"],
 }
 
 export const Text = ({ size = "default", weight = "default", tone = "default", ...props }: Props) => {

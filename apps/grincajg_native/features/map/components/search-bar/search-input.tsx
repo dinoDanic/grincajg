@@ -1,24 +1,25 @@
-import React, { useState } from "react"
+import React from "react"
+import { Text } from "@/components"
 import { Colors, Spacing } from "@/constants"
-import { SearchIcon } from "lucide-react-native"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { SearchIcon, SlidersHorizontal } from "lucide-react-native"
+import { StyleSheet, View } from "react-native"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 export const SearchInput = () => {
-  const [text, onChangeText] = useState("")
   return (
     <View style={{ ...styles.container, backgroundColor: "white" }}>
       <View style={styles.inputwrap}>
-        <SearchIcon size={20} color={Colors.gray} strokeWidth={3} />
-        <Text>Pretrazi</Text>
-        {/* <TextInput */}
-        {/*   onChangeText={(newText) => onChangeText(newText)} */}
-        {/*   value={text} */}
-        {/*   placeholder="Pretrazi" */}
-        {/*   style={{ */}
-        {/*     color: Colors.primary, */}
-        {/*   }} */}
-        {/* /> */}
+        <SearchIcon size={20} color={Colors.dark} strokeWidth={3} />
+        <View>
+          <Text size="sm" weight="bold">
+            Pretrazi
+          </Text>
+          <Text size="sm">Lokacija, mjesto, naselje</Text>
+        </View>
       </View>
+      <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flex: 1, padding: Spacing.sm }}>
+        <SlidersHorizontal color={Colors.dark} size={20} style={{ marginTop: 3 }} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -32,6 +33,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     padding: Spacing.md,
+    flexDirection: "row",
+    gap: Spacing.sm,
   },
   inputwrap: {
     borderWidth: 1,
@@ -44,5 +47,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     flexDirection: "row",
     gap: Spacing.md,
+    flexGrow: 1,
+    alignItems: "center",
   },
 })

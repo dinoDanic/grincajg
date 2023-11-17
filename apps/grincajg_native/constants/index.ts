@@ -53,5 +53,7 @@ export const Colors = {
   "primary-foreground": Pallete.caramelDrizzle.foreground,
   accents: Pallete.sageGreen.foreground,
   gray: "#999",
-  dark: "#333"
+  dark: "#333",
+  muted: "#f1f5f9",
+  mutedForeground: "#64748b",
 }
