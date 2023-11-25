@@ -52,3 +52,4 @@ func GetCategoryChildrens(ctx context.Context, obj *model.Category) ([]*model.Ca
 	database.DB.Preload("Childrens").Find(obj)
 	return obj.Childrens, nil
 }
+

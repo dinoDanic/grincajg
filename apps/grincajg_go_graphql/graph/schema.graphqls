@@ -29,6 +29,13 @@ type Category {
   children: [Category]
 }
 
+type Product {
+  id: ID!
+  name: String!
+  category: Category!
+  organization: Organization!
+}
+
 input CreateCategoryInput {
   name: String!
   parentCategoryId: ID
@@ -71,10 +78,17 @@ input getOrganizationsOnMapInput {
   southwest: Location!
 }
 
+input productsByCategoryOnMapInput {
+  northeast: Location!
+  southwest: Location!
+  categoryID: ID!
+}
+
 type Query {
   me: User!
   categories: [Category]
   getOrganizationsOnMap(input: getOrganizationsOnMapInput!): [Organization]
+  productsByCategoryOnMap(input: productsByCategoryOnMapInput!): [Product]
 }
 
 type Mutation {

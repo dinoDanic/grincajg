@@ -45,6 +45,16 @@ func (r *organizationResolver) Stores(ctx context.Context, obj *model.Organizati
 	return controllers.GetStores(ctx)
 }
 
+// Category is the resolver for the category field.
+func (r *productResolver) Category(ctx context.Context, obj *model.Product) (*model.Category, error) {
+	return controllers.GetProductCategory(obj)
+}
+
+// Organization is the resolver for the organization field.
+func (r *productResolver) Organization(ctx context.Context, obj *model.Product) (*model.Organization, error) {
+	return controllers.GetProductOrganization(obj)
+}
+
 // Me is the resolver for the me field.
 func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
 	return controllers.Me(ctx)
@@ -58,6 +68,11 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 // GetOrganizationsOnMap is the resolver for the getOrganizationsOnMap field.
 func (r *queryResolver) GetOrganizationsOnMap(ctx context.Context, input model.GetOrganizationsOnMapInput) ([]*model.Organization, error) {
 	return controllers.GetOrganizationsOnMap(ctx, input)
+}
+
+// ProductsByCategoryOnMap is the resolver for the productsByCategoryOnMap field.
+func (r *queryResolver) ProductsByCategoryOnMap(ctx context.Context, input model.ProductsByCategoryOnMapInput) ([]*model.Product, error) {
+	return controllers.GetProductsByCategoryOnMap(ctx, input)
 }
 
 // Organization is the resolver for the organization field.
@@ -74,6 +89,9 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 // Organization returns OrganizationResolver implementation.
 func (r *Resolver) Organization() OrganizationResolver { return &organizationResolver{r} }
 
+// Product returns ProductResolver implementation.
+func (r *Resolver) Product() ProductResolver { return &productResolver{r} }
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
@@ -83,5 +101,6 @@ func (r *Resolver) User() UserResolver { return &userResolver{r} }
 type categoryResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type organizationResolver struct{ *Resolver }
+type productResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type userResolver struct{ *Resolver }

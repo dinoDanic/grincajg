@@ -97,3 +97,10 @@ models:
     fields:
       children:
         resolver: true
+  Product:
+    fields:
+      category:
+        resolver: true
+      organization:
+        resolver: true
+

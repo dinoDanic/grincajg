@@ -64,6 +64,7 @@ func GetOrganizationsOnMap(ctx context.Context, input model.GetOrganizationsOnMa
 	}
 
 	var organizations []*model.Organization
+
 	err := database.DB.
 		Where("latitude BETWEEN ? AND ?", sw.Latitude, ne.Latitude).
 		Where("longitude BETWEEN ? AND ?", sw.Longitude, ne.Longitude).

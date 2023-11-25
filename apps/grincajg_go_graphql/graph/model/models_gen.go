@@ -43,3 +43,9 @@ type GetOrganizationsOnMapInput struct {
 	Northeast *Location `json:"northeast"`
 	Southwest *Location `json:"southwest"`
 }
+
+type ProductsByCategoryOnMapInput struct {
+	Northeast  *Location `json:"northeast"`
+	Southwest  *Location `json:"southwest"`
+	CategoryID string    `json:"categoryID"`
+}
